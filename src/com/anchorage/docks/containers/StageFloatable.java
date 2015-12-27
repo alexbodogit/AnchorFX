@@ -253,7 +253,9 @@ public class StageFloatable extends Stage {
 
         stackPanelContainer.getChildren().add(node);
 
-        setupMouseEvents();
+        if (node.resizableProperty().get()) {
+            setupMouseEvents();
+        }
     }
 
     public void closeStage() {

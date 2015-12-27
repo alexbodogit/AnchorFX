@@ -30,9 +30,8 @@ public class DockCommandsBox extends HBox {
         setSpacing(0);
         setStyle("-fx-background-color:transparent;");
     }
-    
-    private void createCloseButton()
-    {
+
+    private void createCloseButton() {
         Image closeImage = new Image("resources/close.png");
         closeButton = new Button() {
             @Override
@@ -43,24 +42,42 @@ public class DockCommandsBox extends HBox {
         closeButton.setGraphic(new ImageView(closeImage));
         closeButton.getStyleClass().add("docknode-command-button-close");
         closeButton.setOnAction(e -> node.undock());
-        
-        node.containerProperty().addListener((observer, oldValue, newValue) -> {
 
-            DockContainer container = (DockContainer) newValue;
+        if (!(node instanceof DockSubStation)) {
+            node.closeableProperty().addListener((observer, oldValue, newValue) -> {
 
-            closeButton.setOpacity((container == null || !(container instanceof SingleDockContainer)) ? 1 : 0.4);
-            closeButton.setMouseTransparent((container == null || !(container instanceof SingleDockContainer)) ? false : true);
+                if (newValue) {
+                    closeButton.setMouseTransparent(false);
+                    closeButton.setOpacity(1);
+                }
+                else {
+                    closeButton.setMouseTransparent(true);
+                    closeButton.setOpacity(0.4);
+                }
+            });
 
-        });
-        
+            node.containerProperty().addListener((observer, oldValue, newValue) -> {
+
+                DockContainer container = (DockContainer) newValue;
+
+                closeButton.setOpacity((container == null || !(container instanceof SingleDockContainer)) ? 1 : 0.4);
+                closeButton.setMouseTransparent((container == null || !(container instanceof SingleDockContainer)) ? false : true);
+
+            });
+
+        }
+        else {
+            closeButton.setMouseTransparent(true);
+            closeButton.setOpacity(0.4);
+        }
+
         getChildren().add(closeButton);
     }
-    
-    private void createMaxRestoreButton()
-    {
+
+    private void createMaxRestoreButton() {
         Image maximizeImage = new Image("resources/maximize.png");
         Image restoreImage = new Image("resources/restore.png");
- 
+
         maximizeRestoreButton = new Button() {
             @Override
             public void requestFocus() {
@@ -69,7 +86,7 @@ public class DockCommandsBox extends HBox {
 
         maximizeRestoreButton.setGraphic(new ImageView(maximizeImage));
         maximizeRestoreButton.getStyleClass().add("docknode-command-button");
- 
+
         node.maximizingProperty().addListener((observer, oldValue, newValue) -> {
 
             if (newValue) {
@@ -79,17 +96,28 @@ public class DockCommandsBox extends HBox {
                 maximizeRestoreButton.setGraphic(new ImageView(maximizeImage));
             }
         });
-        
-        maximizeRestoreButton.setOnAction(e->node.maximizeOrRestore());
-        
+
+        maximizeRestoreButton.setOnAction(e -> node.maximizeOrRestore());
+
         getChildren().add(maximizeRestoreButton);
+
+        node.maximizableProperty().addListener((observer, oldValue, newValue) -> {
+
+            if (newValue) {
+                maximizeRestoreButton.setMouseTransparent(false);
+                maximizeRestoreButton.setOpacity(1);
+            }
+            else {
+                maximizeRestoreButton.setMouseTransparent(true);
+                maximizeRestoreButton.setOpacity(0.4);
+            }
+        });
     }
 
     private void buildUI() {
-        
+
         createMaxRestoreButton();
-        if (!(node instanceof DockSubStation))
-            createCloseButton();
-        
+        createCloseButton();
+
     }
 }
