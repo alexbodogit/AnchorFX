@@ -1,5 +1,5 @@
 # AnchorFX
-##### Anchorage FX is an open source library for JavaFX that allows you to create graphical interfaces with docking panels
+##### AnchorFX is an open source library for JavaFX that allows you to create graphical interfaces with docking panels
 
 ###### Demos
  
