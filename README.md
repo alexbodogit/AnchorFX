@@ -6,4 +6,6 @@
 * com.anchorage.test.AnchorageFX_test
 * com.anchorage.test.AnchorageFX_substations
   
+More features are coming soon...
+
 Contribute to the development to make it even better.
