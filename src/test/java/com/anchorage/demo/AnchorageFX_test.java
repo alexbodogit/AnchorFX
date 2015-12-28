@@ -35,15 +35,14 @@ public class AnchorageFX_test extends Application {
 
         DockNode node1 = AnchorageSystem.createDock("Tree", generateRandomTree());
         node1.dock(station, DockNode.DOCK_POSITION.CENTER);
-
-        
+ 
 
         DockNode node2 = AnchorageSystem.createDock("Editor", new HTMLEditor());
         node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
 
         AnchorageSystem.installDefaultStyle();
 
-        primaryStage.setTitle("Anchorage FX");
+        primaryStage.setTitle("AnchorFX");
         primaryStage.setScene(scene);
         primaryStage.show();
         
