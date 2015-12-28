@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  *
  * @author Alessio
  */
-public class AnchorageFX_test extends Application {
+public class AnchorageFX_settings extends Application {
 
     @Override
     public void start(Stage primaryStage) {
@@ -34,20 +34,27 @@ public class AnchorageFX_test extends Application {
 
         Scene scene = new Scene(station, 800, 500);
 
-        DockNode node1 = AnchorageSystem.createDock("Tree", generateRandomTree());
-        node1.dock(station, DockNode.DOCK_POSITION.CENTER);
-
+        DockNode node1 = AnchorageSystem.createDock("Not floatable", generateRandomTree());
+        node1.dock(station, DockNode.DOCK_POSITION.LEFT);
+        node1.floatableProperty().set(false);
         
-
-        DockNode node2 = AnchorageSystem.createDock("Editor", new HTMLEditor());
+        DockNode node2 = AnchorageSystem.createDock("Not resizable", generateRandomTree());
         node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
-
+        node2.resizableProperty().set(false);
+        
+        DockNode node3 = AnchorageSystem.createDock("Not maximizable", generateRandomTree());
+        node3.dock(station, DockNode.DOCK_POSITION.TOP);
+        node3.maximizableProperty().set(false);
+        
+        DockNode node4 = AnchorageSystem.createDock("Not closeable", generateRandomTree());
+        node4.dock(station, DockNode.DOCK_POSITION.BOTTOM);
+        node4.closeableProperty().set(false);
+ 
         primaryStage.setTitle("Anchorage FX");
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        DockNode node3 = AnchorageSystem.createDock("Floating", new TableView());
-        node3.dockAsFloating(primaryStage, station, 0, 0, 400, 200);
+        
 
         //node4.makeNodeActiveOnFloatableStage();
     }
