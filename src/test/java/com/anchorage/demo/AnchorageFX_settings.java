@@ -49,7 +49,7 @@ public class AnchorageFX_settings extends Application {
 
         AnchorageSystem.installDefaultStyle();
 
-        primaryStage.setTitle("AnchorFX");
+        primaryStage.setTitle("AnchorFX ");
         primaryStage.setScene(scene);
         primaryStage.show();
         
