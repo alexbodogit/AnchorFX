@@ -8,7 +8,6 @@ package com.anchorage.test;
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.stations.DockStation;
 import com.anchorage.system.AnchorageSystem;
-import java.util.Random;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
@@ -16,6 +15,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
+
+import java.util.Random;
 
 /**
  *
@@ -26,13 +27,11 @@ public class AnchorageFX_test extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        AnchorageSystem.installDefaultStyle();
-        
         DockStation station = AnchorageSystem.createStation();
 
         Scene scene = new Scene(station, 800, 500);
         
-        scene.getStylesheets().add("resources/AnchorageFX.css");
+        scene.getStylesheets().add("AnchorageFX.css");
 
         DockNode node1 = AnchorageSystem.createDock("Tree", generateRandomTree());
         node1.dock(station, DockNode.DOCK_POSITION.CENTER);
@@ -41,6 +40,8 @@ public class AnchorageFX_test extends Application {
 
         DockNode node2 = AnchorageSystem.createDock("Editor", new HTMLEditor());
         node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
+
+        AnchorageSystem.installDefaultStyle();
 
         primaryStage.setTitle("Anchorage FX");
         primaryStage.setScene(scene);
