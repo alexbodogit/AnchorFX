@@ -97,7 +97,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
     }
 
     public BooleanProperty resizableProperty() {
-        return closeableProperty;
+        return resizableProperty;
     }
 
     public BooleanProperty maximizableProperty() {
@@ -212,7 +212,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
 
             }
             else {
-                restore();
+                closeFloatingStage();
             }
         }
 
