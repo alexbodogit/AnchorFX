@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.anchorage.test;
+package com.anchorage.demo;
 
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.stations.DockStation;
