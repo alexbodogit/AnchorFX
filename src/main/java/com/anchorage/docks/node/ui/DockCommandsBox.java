@@ -31,6 +31,26 @@ public class DockCommandsBox extends HBox {
         setStyle("-fx-background-color:transparent;");
     }
 
+    private void changeStateOfCloseButton() {
+
+        if (!(node instanceof DockSubStation)) {
+            if (node.containerProperty().get() == null || !(node.containerProperty().get() instanceof SingleDockContainer)) {
+                if (node.closeableProperty().get()) {
+                    closeButton.setMouseTransparent(false);
+                    closeButton.setOpacity(1);
+                }
+                else {
+                    closeButton.setMouseTransparent(true);
+                    closeButton.setOpacity(0.4);
+                }
+            }
+        }
+        else {
+            closeButton.setMouseTransparent(true);
+            closeButton.setOpacity(0.4);
+        }
+    }
+
     private void createCloseButton() {
         Image closeImage = new Image("close.png");
         closeButton = new Button() {
@@ -43,38 +63,14 @@ public class DockCommandsBox extends HBox {
         closeButton.getStyleClass().add("docknode-command-button-close");
         closeButton.setOnAction(e -> node.undock());
 
-        if (!(node instanceof DockSubStation)) {
-            node.closeableProperty().addListener((observer, oldValue, newValue) -> {
-
-                if (newValue) {
-                    closeButton.setMouseTransparent(false);
-                    closeButton.setOpacity(1);
-                }
-                else {
-                    closeButton.setMouseTransparent(true);
-                    closeButton.setOpacity(0.4);
-                }
-            });
-
-            node.containerProperty().addListener((observer, oldValue, newValue) -> {
-
-                DockContainer container = (DockContainer) newValue;
-
-                closeButton.setOpacity((container == null || !(container instanceof SingleDockContainer)) ? 1 : 0.4);
-                closeButton.setMouseTransparent((container == null || !(container instanceof SingleDockContainer)) ? false : true);
-
-            });
-
-        }
-        else {
-            closeButton.setMouseTransparent(true);
-            closeButton.setOpacity(0.4);
-        }
+        node.closeableProperty().addListener((observer, oldValue, newValue) -> changeStateOfCloseButton());
+        node.containerProperty().addListener((observer, oldValue, newValue) -> changeStateOfCloseButton());
 
         getChildren().add(closeButton);
     }
 
     private void createMaxRestoreButton() {
+        
         Image maximizeImage = new Image("maximize.png");
         Image restoreImage = new Image("restore.png");
 

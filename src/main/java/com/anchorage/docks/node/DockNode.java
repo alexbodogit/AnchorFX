@@ -136,7 +136,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         }
     }
 
-    private void closeFloatingStage() {
+    public void closeFloatingStage() {
 
         if (stageFloatable != null) {
             stageFloatable.closeStage();
@@ -150,9 +150,9 @@ public class DockNode extends StackPane implements DockContainableComponent {
         return stageFloatable;
     }
 
-    private void buildUI(DockUIPanel node) {
-        getChildren().add(node);
-        node.setDockNode(this);
+    private void buildUI(DockUIPanel panel) {
+        getChildren().add(panel);
+        panel.setDockNode(this);
     }
 
     public void moveFloatable(double x, double y) {

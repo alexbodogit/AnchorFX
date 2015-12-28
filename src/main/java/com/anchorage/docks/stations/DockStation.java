@@ -13,6 +13,7 @@ import com.anchorage.docks.containers.zones.ZoneSelector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -154,6 +155,7 @@ public final class DockStation extends SingleDockContainer {
     }
 
     private void manageDockDestination() {
+        
         if (dockZones.getCurrentNodeTarget() == dockZones.getNodeSource()) {
             if (dockZones.getCurrentNodeTarget().getParentContainer() instanceof DockTabberContainer
                     && dockZones.getCurrentPosition() != DockNode.DOCK_POSITION.CENTER) {
@@ -196,4 +198,6 @@ public final class DockStation extends SingleDockContainer {
         }
 
     }
+
+    
 }

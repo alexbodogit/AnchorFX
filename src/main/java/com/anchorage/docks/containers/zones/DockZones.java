@@ -7,8 +7,12 @@ package com.anchorage.docks.containers.zones;
 
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.stations.DockStation;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -40,13 +44,13 @@ public final class DockZones extends Stage {
     private Pane circleStageRoot;
     private Circle circleZone;
     ////////////////////////////////////
-    
+
     private static Image dragTopImage;
     private static Image dragBottomImage;
     private static Image dragLeftImage;
     private static Image dragRightImage;
     private static Image dragCenterImage;
-  
+
     private List<ZoneSelector> selectors;
 
     ///////////////////////////////////////////////
@@ -56,8 +60,10 @@ public final class DockZones extends Stage {
     private DockNode currentNodeTarget;
     private DockNode nodeToMove;
     private DockNode.DOCK_POSITION currentPosition;
-    
-    private ZoneSelector currentZoneSelector;
+
+    private ZoneSelector currentZoneSelector = null;
+
+    private Rectangle rectanglePreview;
 
     static {
         dragTopImage = new Image("dragtop.png");
@@ -80,32 +86,33 @@ public final class DockZones extends Stage {
         initStyle(StageStyle.TRANSPARENT);
 
         buildUI();
-        
+
         buildCircleStage();
         makeSelectors();
-        
+
         setAlwaysOnTop(true);
         circleStage.setAlwaysOnTop(true);
     }
 
     private void makeSelectors() {
         selectors = new ArrayList<>();
-        
+
         // selectors of station
-        selectors.add(new ZoneSelector(dragTopImage, DockNode.DOCK_POSITION.TOP, true, mainRoot, (mainRoot.getWidth()-dragTopImage.getWidth())/2,OFFSET_IMAGE));
-        selectors.add(new ZoneSelector(dragBottomImage, DockNode.DOCK_POSITION.BOTTOM, true, mainRoot, (mainRoot.getWidth()-dragTopImage.getWidth())/2,mainRoot.getHeight()-dragBottomImage.getHeight()-OFFSET_IMAGE));
-        selectors.add(new ZoneSelector(dragLeftImage, DockNode.DOCK_POSITION.LEFT, true, mainRoot, OFFSET_IMAGE,(mainRoot.getHeight()-dragLeftImage.getWidth())/2));
-        selectors.add(new ZoneSelector(dragRightImage, DockNode.DOCK_POSITION.RIGHT, true, mainRoot, (mainRoot.getWidth()-dragRightImage.getWidth()-OFFSET_IMAGE),(mainRoot.getHeight()-dragRightImage.getWidth())/2));
-        
+        selectors.add(new ZoneSelector(dragTopImage, DockNode.DOCK_POSITION.TOP, true, mainRoot, (mainRoot.getWidth() - dragTopImage.getWidth()) / 2, OFFSET_IMAGE));
+        selectors.add(new ZoneSelector(dragBottomImage, DockNode.DOCK_POSITION.BOTTOM, true, mainRoot, (mainRoot.getWidth() - dragTopImage.getWidth()) / 2, mainRoot.getHeight() - dragBottomImage.getHeight() - OFFSET_IMAGE));
+        selectors.add(new ZoneSelector(dragLeftImage, DockNode.DOCK_POSITION.LEFT, true, mainRoot, OFFSET_IMAGE, (mainRoot.getHeight() - dragLeftImage.getWidth()) / 2));
+        selectors.add(new ZoneSelector(dragRightImage, DockNode.DOCK_POSITION.RIGHT, true, mainRoot, (mainRoot.getWidth() - dragRightImage.getWidth() - OFFSET_IMAGE), (mainRoot.getHeight() - dragRightImage.getWidth()) / 2));
+
         // selectors of node
-        selectors.add(new ZoneSelector(dragTopImage, DockNode.DOCK_POSITION.TOP, false, circleStageRoot,(circleStageRoot.getWidth() - dragTopImage.getWidth()) / 2, OFFSET_IMAGE));
-        selectors.add(new ZoneSelector(dragBottomImage, DockNode.DOCK_POSITION.BOTTOM, false, circleStageRoot,(circleStageRoot.getWidth() - dragBottomImage.getWidth()) / 2, circleStageRoot.getHeight() - dragBottomImage.getHeight() - OFFSET_IMAGE));
-        selectors.add(new ZoneSelector(dragLeftImage, DockNode.DOCK_POSITION.LEFT, false, circleStageRoot,OFFSET_IMAGE, (circleStageRoot.getHeight() - dragLeftImage.getHeight()) / 2));
-        selectors.add(new ZoneSelector(dragRightImage, DockNode.DOCK_POSITION.RIGHT, false, circleStageRoot,circleStageRoot.getWidth() - dragRightImage.getWidth() - OFFSET_IMAGE, (circleStageRoot.getHeight() - dragRightImage.getHeight()) / 2));
-        selectors.add(new ZoneSelector(dragCenterImage, DockNode.DOCK_POSITION.CENTER, false, circleStageRoot,(circleStageRoot.getWidth() - dragCenterImage.getWidth()) / 2, (circleStageRoot.getHeight() - dragCenterImage.getHeight()) / 2));
+        selectors.add(new ZoneSelector(dragTopImage, DockNode.DOCK_POSITION.TOP, false, circleStageRoot, (circleStageRoot.getWidth() - dragTopImage.getWidth()) / 2, OFFSET_IMAGE));
+        selectors.add(new ZoneSelector(dragBottomImage, DockNode.DOCK_POSITION.BOTTOM, false, circleStageRoot, (circleStageRoot.getWidth() - dragBottomImage.getWidth()) / 2, circleStageRoot.getHeight() - dragBottomImage.getHeight() - OFFSET_IMAGE));
+        selectors.add(new ZoneSelector(dragLeftImage, DockNode.DOCK_POSITION.LEFT, false, circleStageRoot, OFFSET_IMAGE, (circleStageRoot.getHeight() - dragLeftImage.getHeight()) / 2));
+        selectors.add(new ZoneSelector(dragRightImage, DockNode.DOCK_POSITION.RIGHT, false, circleStageRoot, circleStageRoot.getWidth() - dragRightImage.getWidth() - OFFSET_IMAGE, (circleStageRoot.getHeight() - dragRightImage.getHeight()) / 2));
+        selectors.add(new ZoneSelector(dragCenterImage, DockNode.DOCK_POSITION.CENTER, false, circleStageRoot, (circleStageRoot.getWidth() - dragCenterImage.getWidth()) / 2, (circleStageRoot.getHeight() - dragCenterImage.getHeight()) / 2));
     }
 
     private void buildCircleStage() {
+        
         circleStage = new Stage();
         circleStage.initStyle(StageStyle.TRANSPARENT);
         circleStage.initOwner(this);
@@ -121,9 +128,9 @@ public final class DockZones extends Stage {
         circleStageScene = new Scene(circleStageRoot, CIRCLE_RADIUS * 2, CIRCLE_RADIUS * 2, Color.TRANSPARENT);
 
         circleStage.setScene(circleStageScene);
- 
+
         circleStageRoot.setOpacity(0);
-    } 
+    }
 
     private void buildUI() {
 
@@ -140,7 +147,6 @@ public final class DockZones extends Stage {
         setY(screenOrigin.getY());
 
     }
- 
 
     public void showZones() {
         show();
@@ -155,7 +161,6 @@ public final class DockZones extends Stage {
 
         if (circleStageRoot.opacityProperty().get() == 0) {
             circleStageRoot.setOpacity(1);
-
         }
 
         circleStage.setX(screenBounds.getMinX() + (screenBounds.getWidth() - circleStageRoot.getWidth()) / 2);
@@ -171,16 +176,24 @@ public final class DockZones extends Stage {
     }
 
     public void searchArea(double x, double y) {
- 
-        currentZoneSelector = selectors.stream()
-                .filter(s->s.overMe(x, y))
+
+        ZoneSelector selector = selectors.stream()
+                .filter(s -> s.overMe(x, y))
                 .findFirst()
                 .orElse(null);
-        
-        highLight(currentZoneSelector);
-        
-        if (currentZoneSelector != null)
+
+        highLight(selector);
+
+        if (selector != null && selector != currentZoneSelector) {
+            currentZoneSelector = selector;
+            //makePreview(selector, currentNodeTarget);
             currentPosition = currentZoneSelector.getPosition();
+        }
+        else
+        {
+            currentZoneSelector = null;
+            currentPosition = null;
+        }
     }
 
     public DockNode getCurrentNodeTarget() {
@@ -190,8 +203,6 @@ public final class DockZones extends Stage {
     public ZoneSelector getCurrentZoneSelector() {
         return currentZoneSelector;
     }
-    
-    
 
     public DockNode getNodeSource() {
         return nodeToMove;
@@ -202,21 +213,68 @@ public final class DockZones extends Stage {
     }
 
     private void highLight(ZoneSelector selector) {
-         
-        selectors.stream().forEach(s->s.setOpacity(0.3));
-        if (selector != null)
-        {
-            if (selector.isStationZone())
+
+        selectors.stream().forEach(s -> s.setOpacity(0.3));
+
+        if (selector != null) {
+            if (selector.isStationZone()) {
                 hideZones();
+            }
+
             selector.setOpacity(1);
+
         }
-        else
+        else {
+            if (rectanglePreview != null) {
+                mainRoot.getChildren().remove(rectanglePreview);
+            }
             currentNodeTarget = null;
+        }
     }
-    
-    private DockStation getStation()
-    {
+
+    private DockStation getStation() {
         return ownerStation;
+    }
+
+    private void makePreview(ZoneSelector selector, DockNode currentNodeTarget) {
+
+        if (selector == null && rectanglePreview != null) {
+            mainRoot.getChildren().remove(rectanglePreview);
+            return;
+        }
+
+        Bounds sceneBounds = currentNodeTarget.localToScene(currentNodeTarget.getBoundsInLocal());
+
+        rectanglePreview = null;
+
+        KeyValue animationValue = null;
+
+        if (selector.getPosition() == DockNode.DOCK_POSITION.LEFT) {
+            rectanglePreview = new Rectangle(sceneBounds.getMinX(), sceneBounds.getMinY(), 0, sceneBounds.getHeight());
+            animationValue = new KeyValue(rectanglePreview.widthProperty(), sceneBounds.getWidth() / 2);
+        }
+
+        if (selector.getPosition() == DockNode.DOCK_POSITION.TOP) {
+            rectanglePreview = new Rectangle(sceneBounds.getMinX(), sceneBounds.getMinY(), sceneBounds.getWidth(), 0);
+            animationValue = new KeyValue(rectanglePreview.heightProperty(), sceneBounds.getHeight() / 2);
+        }
+        
+        if (selector.getPosition() == DockNode.DOCK_POSITION.RIGHT) {
+            rectanglePreview = new Rectangle(sceneBounds.getMinX()+sceneBounds.getWidth()/2, 0, 0, sceneBounds.getHeight());
+            animationValue = new KeyValue(rectanglePreview.widthProperty(), sceneBounds.getWidth()/2);
+        }
+        
+        if (selector.getPosition() == DockNode.DOCK_POSITION.BOTTOM) {
+            rectanglePreview = new Rectangle(0, sceneBounds.getHeight()/2, sceneBounds.getWidth(), 0);
+            animationValue = new KeyValue(rectanglePreview.heightProperty(), sceneBounds.getHeight()/2);
+        }
+
+        rectanglePreview.setFill(new Color(1, 0, 0, 0.5));
+
+        mainRoot.getChildren().add(rectanglePreview);
+
+        Timeline animationTimeLine = new Timeline(new KeyFrame(javafx.util.Duration.seconds(0.3), animationValue));
+        animationTimeLine.play();
     }
 
 }
