@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.anchorage.test;
+package com.anchorage.demo;
 
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.stations.DockStation;
@@ -27,7 +27,7 @@ public class AnchorageFX_substations extends Application {
 
         Scene scene = new Scene(station, 500, 500);
 
-       AnchorageSystem.installDefaultStyle();
+
 
             DockNode node1 = AnchorageSystem.createDock("1", new TableView());
             node1.dock(station, DockNode.DOCK_POSITION.CENTER);
@@ -46,6 +46,8 @@ public class AnchorageFX_substations extends Application {
 //
 //            DockNode node3 = AnchorageSystem.createDock("3", new TableView());
 //            node3.dock(node2, DockNode.DOCK_POSITION.BOTTOM);
+
+        AnchorageSystem.installDefaultStyle();
 
             primaryStage.setTitle("Anchorage FX SubStation");
             primaryStage.setScene(scene);

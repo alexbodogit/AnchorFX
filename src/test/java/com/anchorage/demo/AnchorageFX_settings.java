@@ -3,21 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.anchorage.test;
+package com.anchorage.demo;
 
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.stations.DockStation;
 import com.anchorage.system.AnchorageSystem;
-import java.util.Random;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.web.HTMLEditor;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+
+import java.util.Random;
 
 /**
  *
@@ -28,7 +25,7 @@ public class AnchorageFX_settings extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        AnchorageSystem.installDefaultStyle();
+
         
         DockStation station = AnchorageSystem.createStation();
 
@@ -49,7 +46,9 @@ public class AnchorageFX_settings extends Application {
         DockNode node4 = AnchorageSystem.createDock("Not closeable", generateRandomTree());
         node4.dock(station, DockNode.DOCK_POSITION.BOTTOM);
         node4.closeableProperty().set(false);
- 
+
+        AnchorageSystem.installDefaultStyle();
+
         primaryStage.setTitle("Anchorage FX");
         primaryStage.setScene(scene);
         primaryStage.show();

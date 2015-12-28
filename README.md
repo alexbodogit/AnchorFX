@@ -3,8 +3,8 @@
 
 ###### Demos
  
-* com.anchorage.test.AnchorageFX_test
-* com.anchorage.test.AnchorageFX_substations
+* com.anchorage.demo.AnchorageFX_test
+* com.anchorage.demo.AnchorageFX_substations
   
 More features are coming soon...
 
