@@ -5,14 +5,15 @@
  */
 package com.anchorage.system;
 
-import com.sun.javafx.css.StyleManager;
-import com.anchorage.docks.node.ui.DockUIPanel;
 import com.anchorage.docks.node.DockNode;
+import com.anchorage.docks.node.ui.DockUIPanel;
 import com.anchorage.docks.stations.DockStation;
 import com.anchorage.docks.stations.DockSubStation;
+import com.sun.javafx.css.StyleManager;
+import javafx.scene.Parent;
+
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.Parent;
 
 /**
  *
@@ -46,7 +47,7 @@ public class AnchorageSystem {
 
     public static void installDefaultStyle() {
         StyleManager.getInstance()
-                .addUserAgentStylesheet("resources/AnchorageFX.css");
+                .addUserAgentStylesheet("AnchorageFX.css");
     }
 
 }

@@ -60,11 +60,11 @@ public final class DockZones extends Stage {
     private ZoneSelector currentZoneSelector;
 
     static {
-        dragTopImage = new Image("resources/dragtop.png");
-        dragBottomImage = new Image("resources/dragbottom.png");
-        dragLeftImage = new Image("resources/dragleft.png");
-        dragRightImage = new Image("resources/dragright.png");
-        dragCenterImage = new Image("resources/dragcenter.png");
+        dragTopImage = new Image("dragtop.png");
+        dragBottomImage = new Image("dragbottom.png");
+        dragLeftImage = new Image("dragleft.png");
+        dragRightImage = new Image("dragright.png");
+        dragCenterImage = new Image("dragcenter.png");
     }
 
     private DockZones() {

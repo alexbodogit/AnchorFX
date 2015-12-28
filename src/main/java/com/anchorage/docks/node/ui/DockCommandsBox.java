@@ -32,7 +32,7 @@ public class DockCommandsBox extends HBox {
     }
 
     private void createCloseButton() {
-        Image closeImage = new Image("resources/close.png");
+        Image closeImage = new Image("close.png");
         closeButton = new Button() {
             @Override
             public void requestFocus() {
@@ -75,8 +75,8 @@ public class DockCommandsBox extends HBox {
     }
 
     private void createMaxRestoreButton() {
-        Image maximizeImage = new Image("resources/maximize.png");
-        Image restoreImage = new Image("resources/restore.png");
+        Image maximizeImage = new Image("maximize.png");
+        Image restoreImage = new Image("restore.png");
 
         maximizeRestoreButton = new Button() {
             @Override
