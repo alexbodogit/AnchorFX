@@ -29,7 +29,7 @@ public class AnchorFX_test extends Application {
 
         DockStation station = AnchorageSystem.createStation();
 
-        Scene scene = new Scene(station, 800, 500);
+        Scene scene = new Scene(station, 1024, 768);
       
         DockNode node1 = AnchorageSystem.createDock("Tree", generateRandomTree());
         node1.dock(station, DockNode.DOCK_POSITION.CENTER);
