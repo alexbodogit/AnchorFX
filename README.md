@@ -3,8 +3,9 @@
 
 ###### Demos
  
-* com.anchorage.demo.AnchorageFX_test
-* com.anchorage.demo.AnchorageFX_substations
+* AnchorFX_test
+* AnchorFX_substations
+* AnchorFX_settings
   
 More features are coming soon...
 
