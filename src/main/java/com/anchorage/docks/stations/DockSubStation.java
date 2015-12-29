@@ -38,9 +38,9 @@ public final class DockSubStation extends DockNode {
         return getStation().getStationScene();
     }
     
-    public void putDock(DockNode dockNode, DockNode.DOCK_POSITION position)  {
+    public void putDock(DockNode dockNode, DockNode.DOCK_POSITION position, double percentage)  {
         substation.add(dockNode);
-        substation.putDock(dockNode, position);
+        substation.putDock(dockNode, position,percentage);
         dockNode.setStation(substation);
     }
      

@@ -23,19 +23,19 @@ public final class DockSplitterContainer extends SplitPane implements DockContai
      
 
     @Override
-    public void putDock(DockNode node, DockNode.DOCK_POSITION position)  {
+    public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage)  {
         // NOTHING
     }
 
     @Override
-    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position) {
+    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
 
         // get index of current node target
         int indexOfTarget = getItems().indexOf(nodeTarget);
 
         if (DockCommons.isABorderPosition(position)) {
             // create a splitter with node and nodeTarget
-            DockSplitterContainer splitter = DockCommons.createSplitter(nodeTarget, node, position);
+            DockSplitterContainer splitter = DockCommons.createSplitter(nodeTarget, node, position,percentage);
 
             getChildren().add(splitter);
             splitter.setParentContainer(this);

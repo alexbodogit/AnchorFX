@@ -19,22 +19,22 @@ public class SingleDockContainer extends StackPane implements DockContainer {
     private DockContainer container;
     
     @Override
-    public void putDock(DockNode node, DockNode.DOCK_POSITION position) {
+    public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage) {
         
         if (getChildren().isEmpty()) {
             getChildren().add(node);
             node.setParentContainer(this);
         } else {
-            manageSubContainers(node, position);
+            manageSubContainers(node, position,percentage);
         }
     }
     
     @Override
-    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position) {
+    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
         
         if (getChildren().get(0) == nodeTarget)
         {
-            manageSubContainers(node, position);
+            manageSubContainers(node, position,percentage);
         }
     }
     
@@ -70,12 +70,12 @@ public class SingleDockContainer extends StackPane implements DockContainer {
         }
     }
     
-    private void manageSubContainers(DockNode node, DockNode.DOCK_POSITION position) {
+    private void manageSubContainers(DockNode node, DockNode.DOCK_POSITION position,double percentage) {
         Node existNode = getChildren().get(0);
         getChildren().remove(existNode);
         
         if (DockCommons.isABorderPosition(position)) {
-            DockSplitterContainer splitter = DockCommons.createSplitter(existNode, node, position);
+            DockSplitterContainer splitter = DockCommons.createSplitter(existNode, node, position,percentage);
             getChildren().add(splitter);
             splitter.setParentContainer(this);
         } else {

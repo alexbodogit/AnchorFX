@@ -5,11 +5,12 @@
  */
 package com.anchorage.docks.containers.zones;
 
+import com.anchorage.docks.containers.common.AnchorageSettings;
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.stations.DockStation;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -23,6 +24,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 /**
  *
@@ -64,6 +66,7 @@ public final class DockZones extends Stage {
     private ZoneSelector currentZoneSelector = null;
 
     private Rectangle rectanglePreview;
+    private Timeline opacityAnimationPreview;
 
     static {
         dragTopImage = new Image("dragtop.png");
@@ -89,9 +92,24 @@ public final class DockZones extends Stage {
 
         buildCircleStage();
         makeSelectors();
+        createRectangleForPreview();
 
         setAlwaysOnTop(true);
         circleStage.setAlwaysOnTop(true);
+    }
+
+    private void createRectangleForPreview() {
+        rectanglePreview = new Rectangle(0, 0, 50, 50);
+        rectanglePreview.getStyleClass().add("dockzone-rectangle-preview");
+        rectanglePreview.setOpacity(0);
+
+        opacityAnimationPreview = new Timeline(new KeyFrame(Duration.seconds(0.5), new KeyValue(rectanglePreview.opacityProperty(), 0.5, Interpolator.LINEAR)));
+
+        opacityAnimationPreview.setAutoReverse(true);
+        opacityAnimationPreview.setCycleCount(-1);
+        
+        mainRoot.getChildren().add(rectanglePreview);
+        
     }
 
     private void makeSelectors() {
@@ -112,7 +130,7 @@ public final class DockZones extends Stage {
     }
 
     private void buildCircleStage() {
-        
+
         circleStage = new Stage();
         circleStage.initStyle(StageStyle.TRANSPARENT);
         circleStage.initOwner(this);
@@ -170,29 +188,55 @@ public final class DockZones extends Stage {
 
     public void hideZones() {
 
+        hidePreview();
+        
         currentNodeTarget = null;
+        
+        if (currentZoneSelector != null)
+            currentZoneSelector.reset();
+        
+        currentZoneSelector = null;
+       
         currentPosition = null;
         circleStageRoot.setOpacity(0);
     }
 
+    private void checkVisibilityConditions() {
+        selectors.
+                stream().
+                forEach(z -> z.setZoneDisabled(false));
+
+        if (currentNodeTarget == nodeToMove) {
+            // disable border zones
+            selectors.
+                    stream().
+                    filter(z -> !z.isStationZone() && z.getPosition() != DockNode.DOCK_POSITION.CENTER).
+                    forEach(z -> z.setZoneDisabled(true));
+        }
+    }
+
     public void searchArea(double x, double y) {
 
+        checkVisibilityConditions();
+         
         ZoneSelector selector = selectors.stream()
-                .filter(s -> s.overMe(x, y))
+                .filter(s -> s.overMe(x, y) && !s.isZoneDisabled())
                 .findFirst()
                 .orElse(null);
-
+ 
         highLight(selector);
 
         if (selector != null && selector != currentZoneSelector) {
             currentZoneSelector = selector;
-            //makePreview(selector, currentNodeTarget);
+            makePreview(currentZoneSelector, currentNodeTarget); 
             currentPosition = currentZoneSelector.getPosition();
         }
-        else
-        {
-            currentZoneSelector = null;
-            currentPosition = null;
+        else {
+            if (selector == null) {
+                hidePreview();
+                currentZoneSelector = null;
+                currentPosition = null;
+            }
         }
     }
 
@@ -214,19 +258,20 @@ public final class DockZones extends Stage {
 
     private void highLight(ZoneSelector selector) {
 
-        selectors.stream().forEach(s -> s.setOpacity(0.3));
+        selectors.stream().forEach(s -> s.reset());
 
         if (selector != null) {
             if (selector.isStationZone()) {
-                hideZones();
+                circleStageRoot.setOpacity(0);
             }
-
-            selector.setOpacity(1);
+            else
+                circleStageRoot.setOpacity(1);
+            selector.highLight();
 
         }
         else {
             if (rectanglePreview != null) {
-                mainRoot.getChildren().remove(rectanglePreview);
+                hidePreview();
             }
             currentNodeTarget = null;
         }
@@ -236,45 +281,127 @@ public final class DockZones extends Stage {
         return ownerStation;
     }
 
-    private void makePreview(ZoneSelector selector, DockNode currentNodeTarget) {
-
-        if (selector == null && rectanglePreview != null) {
-            mainRoot.getChildren().remove(rectanglePreview);
-            return;
+    private void hidePreview() {
+        if (AnchorageSettings.isDockingPositionPreview()) {
+            stopAnimatePreview();
+            rectanglePreview.setOpacity(0);
         }
+    }
 
+    private void showPreviewForNodeSelector(ZoneSelector selector) {
         Bounds sceneBounds = currentNodeTarget.localToScene(currentNodeTarget.getBoundsInLocal());
 
-        rectanglePreview = null;
-
-        KeyValue animationValue = null;
-
         if (selector.getPosition() == DockNode.DOCK_POSITION.LEFT) {
-            rectanglePreview = new Rectangle(sceneBounds.getMinX(), sceneBounds.getMinY(), 0, sceneBounds.getHeight());
-            animationValue = new KeyValue(rectanglePreview.widthProperty(), sceneBounds.getWidth() / 2);
+
+            rectanglePreview.setX(sceneBounds.getMinX());
+            rectanglePreview.setY(sceneBounds.getMinY());
+            rectanglePreview.setWidth(sceneBounds.getWidth() / 2);
+            rectanglePreview.setHeight(sceneBounds.getHeight());
         }
 
         if (selector.getPosition() == DockNode.DOCK_POSITION.TOP) {
-            rectanglePreview = new Rectangle(sceneBounds.getMinX(), sceneBounds.getMinY(), sceneBounds.getWidth(), 0);
-            animationValue = new KeyValue(rectanglePreview.heightProperty(), sceneBounds.getHeight() / 2);
+
+            rectanglePreview.setX(sceneBounds.getMinX());
+            rectanglePreview.setY(sceneBounds.getMinY());
+            rectanglePreview.setWidth(sceneBounds.getWidth());
+            rectanglePreview.setHeight(sceneBounds.getHeight() / 2);
+
         }
-        
+
         if (selector.getPosition() == DockNode.DOCK_POSITION.RIGHT) {
-            rectanglePreview = new Rectangle(sceneBounds.getMinX()+sceneBounds.getWidth()/2, 0, 0, sceneBounds.getHeight());
-            animationValue = new KeyValue(rectanglePreview.widthProperty(), sceneBounds.getWidth()/2);
+
+            rectanglePreview.setX(sceneBounds.getMinX() + sceneBounds.getWidth() / 2);
+            rectanglePreview.setY(sceneBounds.getMinY());
+            rectanglePreview.setWidth(sceneBounds.getWidth() / 2);
+            rectanglePreview.setHeight(sceneBounds.getHeight());
+        }
+
+        if (selector.getPosition() == DockNode.DOCK_POSITION.BOTTOM) {
+
+            rectanglePreview.setX(sceneBounds.getMinX());
+            rectanglePreview.setY(sceneBounds.getMinY() + sceneBounds.getHeight() / 2);
+            rectanglePreview.setWidth(sceneBounds.getWidth());
+            rectanglePreview.setHeight(sceneBounds.getHeight() / 2);
+
+        }
+
+        if (selector.getPosition() == DockNode.DOCK_POSITION.CENTER) {
+
+            rectanglePreview.setX(sceneBounds.getMinX());
+            rectanglePreview.setY(sceneBounds.getMinY());
+            rectanglePreview.setWidth(sceneBounds.getWidth());
+            rectanglePreview.setHeight(sceneBounds.getHeight());
+
         }
         
-        if (selector.getPosition() == DockNode.DOCK_POSITION.BOTTOM) {
-            rectanglePreview = new Rectangle(0, sceneBounds.getHeight()/2, sceneBounds.getWidth(), 0);
-            animationValue = new KeyValue(rectanglePreview.heightProperty(), sceneBounds.getHeight()/2);
+    }
+
+    private void showPreviewForStationSelector(ZoneSelector selector) {
+        Bounds sceneBounds = ownerStation.getBoundsInParent();
+
+        if (selector.getPosition() == DockNode.DOCK_POSITION.LEFT) {
+
+            rectanglePreview.setX(sceneBounds.getMinX());
+            rectanglePreview.setY(sceneBounds.getMinY());
+            rectanglePreview.setWidth(sceneBounds.getWidth() / 2);
+            rectanglePreview.setHeight(sceneBounds.getHeight());
         }
 
-        rectanglePreview.setFill(new Color(1, 0, 0, 0.5));
+        if (selector.getPosition() == DockNode.DOCK_POSITION.TOP) {
 
-        mainRoot.getChildren().add(rectanglePreview);
+            rectanglePreview.setX(sceneBounds.getMinX());
+            rectanglePreview.setY(sceneBounds.getMinY());
+            rectanglePreview.setWidth(sceneBounds.getWidth());
+            rectanglePreview.setHeight(sceneBounds.getHeight() / 2);
 
-        Timeline animationTimeLine = new Timeline(new KeyFrame(javafx.util.Duration.seconds(0.3), animationValue));
-        animationTimeLine.play();
+        }
+
+        if (selector.getPosition() == DockNode.DOCK_POSITION.RIGHT) {
+
+            rectanglePreview.setX(sceneBounds.getMinX() + sceneBounds.getWidth() / 2);
+            rectanglePreview.setY(sceneBounds.getMinY());
+            rectanglePreview.setWidth(sceneBounds.getWidth() / 2);
+            rectanglePreview.setHeight(sceneBounds.getHeight());
+        }
+
+        if (selector.getPosition() == DockNode.DOCK_POSITION.BOTTOM) {
+
+            rectanglePreview.setX(sceneBounds.getMinX());
+            rectanglePreview.setY(sceneBounds.getMinY() + sceneBounds.getHeight() / 2);
+            rectanglePreview.setWidth(sceneBounds.getWidth());
+            rectanglePreview.setHeight(sceneBounds.getHeight() / 2);
+
+        }
+      
+        
+        
+    }
+
+    private void animatePreview() {
+        stopAnimatePreview();
+        rectanglePreview.setOpacity(1);
+        rectanglePreview.toFront();
+        opacityAnimationPreview.play();
+    }
+
+    private void stopAnimatePreview() {
+        opacityAnimationPreview.stop();
+    }
+
+    private void makePreview(ZoneSelector selector, DockNode currentNodeTarget) {
+
+        if (AnchorageSettings.isDockingPositionPreview()) {
+
+            if (!selector.isStationZone()) {
+                showPreviewForNodeSelector(selector);
+            }
+            else {
+                showPreviewForStationSelector(selector);
+            }
+            
+            animatePreview();
+        }
+
     }
 
 }

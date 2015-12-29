@@ -23,9 +23,10 @@ public class DockCommons {
         return position != DockNode.DOCK_POSITION.CENTER;
     }
 
-    public static DockSplitterContainer createSplitter(Node existNode, Node newNode, DockNode.DOCK_POSITION position) {
+    public static DockSplitterContainer createSplitter(Node existNode, Node newNode, DockNode.DOCK_POSITION position, double percentage) {
         DockSplitterContainer splitter = createEmptySplitter();
 
+        
         if (position == DockNode.DOCK_POSITION.BOTTOM || position == DockNode.DOCK_POSITION.TOP) {
             splitter.setOrientation(Orientation.VERTICAL);
         }
@@ -43,7 +44,7 @@ public class DockCommons {
         } 
         
         splitter.getStyleClass().add("docknode-split-pane");
-
+        splitter.setDividerPositions(percentage);
         return splitter;
     }
 

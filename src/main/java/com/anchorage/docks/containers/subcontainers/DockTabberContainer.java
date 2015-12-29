@@ -24,14 +24,14 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
     private DockContainer container;
 
     @Override
-    public void putDock(DockNode node, DockNode.DOCK_POSITION position) {
+    public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage) {
 
     }
 
     private void createSplitter(DockNode node, DockNode.DOCK_POSITION position) {
         DockContainer currentContainer = container;
 
-        DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position);
+        DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position,0.5);
 
         int indexOf = currentContainer.indexOf(this);
 
@@ -53,7 +53,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
     }
 
     @Override
-    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position) {
+    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
         if (position != DockNode.DOCK_POSITION.CENTER) {
             createSplitter(node, position);
         }
@@ -138,7 +138,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
 
             DockContainer currentContainer = container;
 
-            DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position);
+            DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position,0.5);
 
             int indexOf = currentContainer.indexOf(this);
 

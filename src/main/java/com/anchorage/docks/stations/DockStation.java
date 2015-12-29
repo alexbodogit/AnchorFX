@@ -88,8 +88,6 @@ public final class DockStation extends SingleDockContainer {
         if (currentNodeMaximized != null) 
             return;
         
-        Point2D scenePoint = screenToLocal(x, y);
-
         Optional<DockNode> nodeTarget = nodes.stream()
                 .filter(node
                         -> !node.floatingProperty().get()

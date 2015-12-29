@@ -5,6 +5,7 @@
  */
 package com.anchorage.demo;
 
+import com.anchorage.docks.containers.common.AnchorageSettings;
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.stations.DockStation;
 import com.anchorage.system.AnchorageSystem;
@@ -25,7 +26,7 @@ public class AnchorFX_settings extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-
+        AnchorageSettings.setDockingPositionPreview(false);
         
         DockStation station = AnchorageSystem.createStation();
 

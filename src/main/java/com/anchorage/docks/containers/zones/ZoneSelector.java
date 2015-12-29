@@ -26,7 +26,7 @@ public final class ZoneSelector extends Pane {
     private final boolean stationZone;
     private final Pane parent;
     
-    
+    private boolean zoneDisabled = false;
 
     public ZoneSelector(Image image, DockNode.DOCK_POSITION position, boolean stationZone,Pane parent, double x, double y)
     { 
@@ -35,6 +35,27 @@ public final class ZoneSelector extends Pane {
         this.parent = parent;
           
         buildUI(image,x,y);
+    }
+    
+    public void setZoneDisabled(boolean value)
+    {
+        zoneDisabled = value;
+        setOpacity((value) ? 0 : 1);
+    }
+    
+    public boolean isZoneDisabled()
+    {
+        return zoneDisabled;
+    }
+    
+    public void reset()
+    {
+        setOpacity((zoneDisabled) ? 0 : 0.3);
+    }
+    
+    public void highLight()
+    {
+        setOpacity((zoneDisabled) ? 0 : 1);
     }
     
     private void buildUI(Image image, double x, double y)

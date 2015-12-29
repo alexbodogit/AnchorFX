@@ -38,7 +38,7 @@ public class AnchorFX_test extends Application {
         node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
         
         DockNode node3 = AnchorageSystem.createDock("Below the editor", generateRandomTree());
-        node3.dock(node2, DockNode.DOCK_POSITION.BOTTOM);
+        node3.dock(node2, DockNode.DOCK_POSITION.BOTTOM,0.8);
 
         AnchorageSystem.installDefaultStyle();
 

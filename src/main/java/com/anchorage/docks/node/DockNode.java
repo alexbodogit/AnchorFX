@@ -254,23 +254,43 @@ public class DockNode extends StackPane implements DockContainableComponent {
         stageFloatable.setHeight(height);
         setStation((DockStation) station);
     }
-
+    
     public void dock(DockStation station, DockNode.DOCK_POSITION position) {
         station.add(this);
-        station.putDock(this, position);
+        station.putDock(this, position,0.5);
         setStation((DockStation) station);
     }
+     
 
     public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position) {
 
         nodeTarget.getStation().add(this);
-        nodeTarget.getParentContainer().putDock(this, nodeTarget, position);
+        nodeTarget.getParentContainer().putDock(this, nodeTarget, position,0.5);
         setStation(nodeTarget.getStation());
     }
 
+    public void dock(DockStation station, DockNode.DOCK_POSITION position, double percentage) {
+        station.add(this);
+        station.putDock(this, position,percentage);
+        setStation((DockStation) station);
+    }
+     
+
+    public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
+
+        nodeTarget.getStation().add(this);
+        nodeTarget.getParentContainer().putDock(this, nodeTarget, position,percentage);
+        setStation(nodeTarget.getStation());
+    }
+    
     public void dock(DockSubStation subStation, DockNode.DOCK_POSITION position) {
 
-        subStation.putDock(this, position);
+        subStation.putDock(this, position,0.5);
+    }
+
+    public void dock(DockSubStation subStation, DockNode.DOCK_POSITION position, double percentage) {
+
+        subStation.putDock(this, position,percentage);
     }
 
     public void undock() {

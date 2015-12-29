@@ -13,4 +13,17 @@ public class AnchorageSettings {
     public static final int FLOATING_NODE_DROPSHADOW_RADIUS = 10; 
     public static final int FLOATING_NODE_MINIMUM_WIDTH = 150;
     public static final int FLOATING_NODE_MINIMUM_HEIGHT = 150;
+    
+    private static boolean dockingPositionPreview = true;
+    
+    public static void setDockingPositionPreview(boolean value)
+    {
+        dockingPositionPreview = value;
+    }
+
+    public static boolean isDockingPositionPreview() {
+        return dockingPositionPreview;
+    }
+    
+    
 }

@@ -90,3 +90,7 @@
 .dockzone-circle-selector {
     -fx-fill: rgba(0,0,0,0.8);
 }
+
+.dockzone-rectangle-preview {
+    -fx-fill: rgba(63,138,163,0.8);
+}
