@@ -30,15 +30,15 @@ public class AnchorFX_test extends Application {
         DockStation station = AnchorageSystem.createStation();
 
         Scene scene = new Scene(station, 800, 500);
-        
-        scene.getStylesheets().add("AnchorageFX.css");
-
+      
         DockNode node1 = AnchorageSystem.createDock("Tree", generateRandomTree());
         node1.dock(station, DockNode.DOCK_POSITION.CENTER);
- 
-
+  
         DockNode node2 = AnchorageSystem.createDock("Editor", new HTMLEditor());
         node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
+        
+        DockNode node3 = AnchorageSystem.createDock("Below the editor", generateRandomTree());
+        node3.dock(node2, DockNode.DOCK_POSITION.BOTTOM);
 
         AnchorageSystem.installDefaultStyle();
 
@@ -46,10 +46,11 @@ public class AnchorFX_test extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        DockNode node3 = AnchorageSystem.createDock("Floating", new TableView());
-        node3.dockAsFloating(primaryStage, station, 0, 0, 400, 200);
+        DockNode node4 = AnchorageSystem.createDock("Floating", new TableView());
+        node4.dockAsFloating(primaryStage, station, 0, 0, 400, 200);
 
-        //node4.makeNodeActiveOnFloatableStage();
+        
+        AnchorageSystem.installDefaultStyle();
     }
 
     private TreeView<String> generateRandomTree() {
