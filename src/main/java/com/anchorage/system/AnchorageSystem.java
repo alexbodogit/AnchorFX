@@ -47,7 +47,7 @@ public class AnchorageSystem {
 
     public static void installDefaultStyle() {
         StyleManager.getInstance()
-                .addUserAgentStylesheet("AnchorageFX.css");
+                .addUserAgentStylesheet("AnchorFX.css");
     }
 
 }
