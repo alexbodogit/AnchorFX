@@ -317,6 +317,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
     }
 
     public void maximizeOrRestore() {
+
         if (maximizingProperty.get()) {
             restoreLayout();
         }
@@ -327,25 +328,31 @@ public class DockNode extends StackPane implements DockContainableComponent {
     }
 
     public void restoreLayout() {
-        if (floatingProperty.get()) {
-            stageFloatable.setX(0);
-            stageFloatable.setY(0);
-            stageFloatable.setMaximized(false);
+        if (maximizableProperty.get()) {
+            if (floatingProperty.get()) {
+                stageFloatable.setX(0);
+                stageFloatable.setY(0);
+                stageFloatable.setMaximized(false);
+            }
+            else {
+                station.restore(this);
+            }
+            maximizingProperty.set(false);
         }
-        else {
-            station.restore(this);
-        }
-        maximizingProperty.set(false);
+
     }
 
     public void maximizeLayout() {
-        if (floatingProperty.get()) {
+        if (maximizableProperty.get()) {
+            if (floatingProperty.get()) {
 
-            stageFloatable.setMaximized(true);
+                stageFloatable.setMaximized(true);
+            }
+            else {
+                station.maximize(this);
+            }
+            maximizingProperty.set(true);
         }
-        else {
-            station.maximize(this);
-        }
-        maximizingProperty.set(true);
+
     }
 }

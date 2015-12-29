@@ -13,6 +13,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -78,9 +79,23 @@ public final class DockUIPanel extends Pane {
     }
 
     private void installDragEventMananger() {
+        
+        barPanel.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                 node.maximizeOrRestore();
+            }
+        });
 
-        barPanel.setOnMouseDragged(event -> manageDragEvent(event));
-        barPanel.setOnMouseReleased(event -> manageReleaseEvent());
+        barPanel.setOnMouseDragged(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                manageDragEvent(event);
+            }
+        });
+        barPanel.setOnMouseReleased(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                manageReleaseEvent();
+            }
+        });
     }
 
     private void manageDragEvent(MouseEvent event) {
