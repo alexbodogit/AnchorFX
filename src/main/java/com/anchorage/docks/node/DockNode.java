@@ -7,7 +7,6 @@ package com.anchorage.docks.node;
 
 import com.anchorage.docks.containers.SingleDockContainer;
 import com.anchorage.docks.containers.StageFloatable;
-import static com.anchorage.docks.containers.common.AnchorageSettings.FLOATING_NODE_DROPSHADOW_RADIUS;
 import com.anchorage.docks.node.ui.DockUIPanel;
 import javafx.scene.layout.StackPane;
 
@@ -23,10 +22,8 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
+import javafx.scene.image.Image;
 import javafx.stage.Window;
 
 /**
@@ -118,6 +115,11 @@ public class DockNode extends StackPane implements DockContainableComponent {
 
     public ReadOnlyObjectProperty containerProperty() {
         return containerProperty.getReadOnlyProperty();
+    }
+    
+    public void setIcon(Image icon)
+    {
+        content.setIcon(icon);
     }
 
     public void restore() {

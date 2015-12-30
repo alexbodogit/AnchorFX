@@ -13,6 +13,8 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -39,12 +41,14 @@ public final class DockUIPanel extends Pane {
     private Point2D deltaDragging;
 
     private boolean subStationStype;
+    
+    private ImageView iconView;
 
     private DockUIPanel() {
 
     }
 
-    public DockUIPanel(String title, Parent nodeContent, boolean subStationStype) {
+    public DockUIPanel(String title, Parent nodeContent, boolean subStationStype, Image imageIcon) {
 
         this.subStationStype = subStationStype;
 
@@ -53,10 +57,16 @@ public final class DockUIPanel extends Pane {
 
         this.nodeContent = nodeContent;
 
-        buildNode(title);
+        buildNode(title,imageIcon);
 
         installDragEventMananger();
 
+    }
+    
+    public void setIcon(Image icon)
+    {
+        Objects.requireNonNull(icon);
+        iconView.setImage(icon);
     }
 
     private void makeCommands() {
@@ -130,8 +140,11 @@ public final class DockUIPanel extends Pane {
         }
     }
 
-    private void buildNode(String title) {
+    private void buildNode(String title, Image iconImage) {
 
+        Objects.requireNonNull(iconImage);
+        Objects.requireNonNull(title);
+        
         barPanel = new Pane();
 
         String titleBarStyle = (!subStationStype) ? "docknode-title-bar" : "substation-title-bar";
@@ -145,10 +158,18 @@ public final class DockUIPanel extends Pane {
         titleLabel = new Label(title);
 
         String titleTextStyle = (!subStationStype) ? "docknode-title-text" : "substation-title-text";
+        
+        iconView = new ImageView(iconImage);
+        iconView.setFitWidth(20);
+        iconView.setFitHeight(20);
+        iconView.setPreserveRatio(false);
+        iconView.setSmooth(true);
+        iconView.relocate(1,(BAR_HEIGHT-iconView.getFitHeight()) / 2);
+        
 
         titleLabel.getStyleClass().add(titleTextStyle);
-        barPanel.getChildren().add(titleLabel);
-        titleLabel.relocate(10, 7);
+        barPanel.getChildren().addAll(iconView,titleLabel);
+        titleLabel.relocate(25, 7);
 
         contentPanel = new StackPane();
         contentPanel.getStyleClass().add("docknode-content-panel");

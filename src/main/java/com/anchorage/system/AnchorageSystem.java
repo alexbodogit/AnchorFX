@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -23,9 +24,14 @@ public class AnchorageSystem {
 
     private static final List<DockStation> stations;
     private static DockNode nodeInDragging;
+    private static final Image emptyIconImage;
+    private static final Image emptySubstationIconImage;
+    
 
     static {
         stations = new ArrayList<>();
+        emptyIconImage = new Image("empty.png");
+        emptySubstationIconImage = new Image("substation.png");
     }
 
     public static DockStation createStation() {
@@ -35,12 +41,18 @@ public class AnchorageSystem {
     }
 
     public static DockSubStation createSubStation(DockStation parentStation, String title) {
-        DockSubStation station = new DockSubStation(new DockUIPanel(title, new DockStation(),true));
+        DockSubStation station = new DockSubStation(new DockUIPanel(title, new DockStation(),true,emptySubstationIconImage));
         return station;
     }
 
     public static DockNode createDock(String title, Parent content) {
-        DockUIPanel panel = new DockUIPanel(title, content,false);
+        DockUIPanel panel = new DockUIPanel(title, content,false,emptyIconImage);
+        DockNode container = new DockNode(panel);
+        return container;
+    }
+    
+    public static DockNode createDock(String title, Parent content, Image icon) {
+        DockUIPanel panel = new DockUIPanel(title, content,false,icon);
         DockNode container = new DockNode(panel);
         return container;
     }
