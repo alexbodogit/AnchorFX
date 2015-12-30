@@ -54,9 +54,6 @@ public class AnchorFX_settings extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        
-
-        //node4.makeNodeActiveOnFloatableStage();
     }
 
     private TreeView<String> generateRandomTree() {
