@@ -1,4 +1,4 @@
-# AnchorFX
+![Anchorfx logo](/src/main/resources/anchorfx.png)
 
 ### Docking framework for JavaFX platform
 
