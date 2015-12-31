@@ -81,9 +81,11 @@ The nodes that are associated with a DockSubStation can only be moved within the
  subStation.dock(station, DockNode.DOCK_POSITION.LEFT,0.7);
 ```
  
- #### Styling with AnchorFX.css
+ 
+##### Styling with AnchorFX.css
  
  The file AnchorFX.css located within resource, defines a simple default style
+ 
  
  ```css
 
