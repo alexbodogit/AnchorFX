@@ -2,6 +2,8 @@
 
 ### Docking framework for JavaFX platform
 
+![Anchorfx logo](/src/main/resources/screenshot.png)
+
 AnchorFX is a gratis and open source library for JavaFX to create graphical interfaces with docking features 
 
 #### Features
