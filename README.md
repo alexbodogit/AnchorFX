@@ -6,6 +6,8 @@
 
 AnchorFX is a gratis and open source library for JavaFX to create graphical interfaces with docking features 
 
+AnchorFX and its source code is licensed under the GNU Lesser General Public License version 3 and you can make adaptations of this work
+
 #### Features
 
  * Stations and sub stations support
