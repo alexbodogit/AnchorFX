@@ -81,3 +81,110 @@ The nodes that are associated with a DockSubStation can only be moved within the
  subStation.dock(station, DockNode.DOCK_POSITION.LEFT,0.7);
 ```
  
+ ##### Styling with AnchorFX.css
+ 
+ The file AnchorFX.css located within resource, defines a simple default style
+ 
+ ```css
+
+.docknode-title-bar {
+    -fx-background-color: rgb(100,100,100);
+}
+
+.docknode-title-text{
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.docknode-content-panel{
+    -fx-background-color: rgb(100,100,100);
+    -fx-padding: 0
+}
+
+.docknode-floating-stack-container-panel {
+    -fx-background-color: rgb(100,100,100);
+    -fx-padding: 4
+}
+ 
+.docknode-split-pane {  
+    -fx-padding: 0;  
+} 
+
+.docknode-split-pane *.split-pane-divider {  
+    -fx-padding: 2;  
+    -fx-border-color:transparent;
+    -fx-color: darkgray;
+} 
+
+.docknode-tab-panel{
+    -fx-padding: 0;
+}
+
+.docknode-command-button{
+    -fx-background-color:transparent;
+    -fx-background-radius: 0,0,0;
+}
+
+.docknode-command-button:hover{
+    -fx-background-color:darkgray;
+}
+
+.docknode-command-button:pressed{
+    -fx-background-color:darkgray;
+}
+
+.docknode-command-button:focused{
+    -fx-background-color:transparent;
+}
+
+.docknode-command-button-close{
+    -fx-background-color:transparent;
+    -fx-background-radius: 0,0,0;
+}
+
+.docknode-command-button-close:pressed{
+    -fx-background-color:red;
+}
+
+.docknode-command-button-close:hover{
+    -fx-background-color:red;
+}
+
+.docknode-command-button-close:focused{
+    -fx-background-color:transparent;
+} 
+
+.station {
+    -fx-background-color: rgb(0,0,0);
+    -fx-padding: 0
+}
+
+.substation-title-bar {
+    -fx-background-color: rgb(0,0,0);
+}
+
+.substation-title-text{
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.dockzone-circle-container-selectors {
+    -fx-fill: rgba(0,0,0,0.7);
+}
+
+.dockzone-circle-selector {
+    -fx-fill: rgba(0,0,0,0.8);
+}
+
+.dockzone-rectangle-preview {
+    -fx-fill: rgba(63,138,163,0.8);
+}
+```
+ 
+ 
+ 
+## Explore demos on test package
+
+The examples will use the functionality described
+
+ * AnchorFX_test.java
+ * AnchorFX_substations.java
+ * AnchorFX_settings.java
