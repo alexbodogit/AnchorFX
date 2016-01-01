@@ -177,6 +177,7 @@ public final class DockStation extends SingleDockContainer {
             getChildren().remove(0);
 
             currentNodeMaximizedParent = node.getParent();
+            
             getChildren().add(node);
 
             currentNodeMaximized = node;

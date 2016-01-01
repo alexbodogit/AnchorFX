@@ -7,6 +7,7 @@ package com.anchorage.docks.node;
 
 import com.anchorage.docks.containers.SingleDockContainer;
 import com.anchorage.docks.containers.StageFloatable;
+import static com.anchorage.docks.containers.common.AnchorageSettings.FLOATING_NODE_DROPSHADOW_RADIUS;
 import com.anchorage.docks.node.ui.DockUIPanel;
 import javafx.scene.layout.StackPane;
 
@@ -21,9 +22,12 @@ import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Window;
 
 /**
@@ -60,6 +64,12 @@ public class DockNode extends StackPane implements DockContainableComponent {
     private ReadOnlyObjectWrapper<DockContainer> containerProperty;
 
     private StageFloatable stageFloatable;
+
+    private double floatingStateCoordinateX;
+    private double floatingStateCoordinateY;
+    private double floatingStateWidth;
+    private double floatingStateHeight;
+    
 
     private DockNode() {
 
@@ -349,9 +359,10 @@ public class DockNode extends StackPane implements DockContainableComponent {
     public void restoreLayout() {
         if (maximizableProperty.get()) {
             if (floatingProperty.get()) {
-                stageFloatable.setX(0);
-                stageFloatable.setY(0);
-                stageFloatable.setMaximized(false);
+                stageFloatable.setX(floatingStateCoordinateX);
+                stageFloatable.setY(floatingStateCoordinateY);
+                stageFloatable.setWidth(floatingStateWidth);
+                stageFloatable.setHeight(floatingStateHeight);
                 maximizingProperty.set(false);
             }
             else {
@@ -364,10 +375,27 @@ public class DockNode extends StackPane implements DockContainableComponent {
 
     }
 
+    private void moveStateToFullScreen() {
+        // Get current screen of the stage      
+        ObservableList<Screen> screens = Screen.getScreensForRectangle(new Rectangle2D(stageFloatable.getX(), stageFloatable.getY(), stageFloatable.getWidth(), stageFloatable.getHeight()));
+
+        // Change stage properties
+        Rectangle2D bounds = screens.get(0).getBounds();
+        stageFloatable.setX(bounds.getMinX()-FLOATING_NODE_DROPSHADOW_RADIUS);
+        stageFloatable.setY(bounds.getMinY()-FLOATING_NODE_DROPSHADOW_RADIUS);
+        stageFloatable.setWidth(bounds.getWidth()+FLOATING_NODE_DROPSHADOW_RADIUS*2);
+        stageFloatable.setHeight(bounds.getHeight()+FLOATING_NODE_DROPSHADOW_RADIUS*2);
+    }
+
     public void maximizeLayout() {
         if (maximizableProperty.get()) {
             if (floatingProperty.get()) {
-                stageFloatable.setMaximized(true);
+                floatingStateCoordinateX = stageFloatable.getX();
+                floatingStateCoordinateY = stageFloatable.getY();
+                floatingStateWidth = stageFloatable.getWidth();
+                floatingStateHeight = stageFloatable.getHeight();
+                moveStateToFullScreen();
+                
                 maximizingProperty.set(true);
             }
             else {
