@@ -116,9 +116,8 @@ public class DockNode extends StackPane implements DockContainableComponent {
     public ReadOnlyObjectProperty containerProperty() {
         return containerProperty.getReadOnlyProperty();
     }
-    
-    public void setIcon(Image icon)
-    {
+
+    public void setIcon(Image icon) {
         content.setIcon(icon);
     }
 
@@ -256,43 +255,41 @@ public class DockNode extends StackPane implements DockContainableComponent {
         stageFloatable.setHeight(height);
         setStation((DockStation) station);
     }
-    
+
     public void dock(DockStation station, DockNode.DOCK_POSITION position) {
         station.add(this);
-        station.putDock(this, position,0.5);
+        station.putDock(this, position, 0.5);
         setStation((DockStation) station);
     }
-     
 
     public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position) {
 
         nodeTarget.getStation().add(this);
-        nodeTarget.getParentContainer().putDock(this, nodeTarget, position,0.5);
+        nodeTarget.getParentContainer().putDock(this, nodeTarget, position, 0.5);
         setStation(nodeTarget.getStation());
     }
 
     public void dock(DockStation station, DockNode.DOCK_POSITION position, double percentage) {
         station.add(this);
-        station.putDock(this, position,percentage);
+        station.putDock(this, position, percentage);
         setStation((DockStation) station);
     }
-     
 
     public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
 
         nodeTarget.getStation().add(this);
-        nodeTarget.getParentContainer().putDock(this, nodeTarget, position,percentage);
+        nodeTarget.getParentContainer().putDock(this, nodeTarget, position, percentage);
         setStation(nodeTarget.getStation());
     }
-    
+
     public void dock(DockSubStation subStation, DockNode.DOCK_POSITION position) {
 
-        subStation.putDock(this, position,0.5);
+        subStation.putDock(this, position, 0.5);
     }
 
     public void dock(DockSubStation subStation, DockNode.DOCK_POSITION position, double percentage) {
 
-        subStation.putDock(this, position,percentage);
+        subStation.putDock(this, position, percentage);
     }
 
     public void undock() {
@@ -355,11 +352,14 @@ public class DockNode extends StackPane implements DockContainableComponent {
                 stageFloatable.setX(0);
                 stageFloatable.setY(0);
                 stageFloatable.setMaximized(false);
+                maximizingProperty.set(false);
             }
             else {
-                station.restore(this);
+                if (station.restore(this)) {
+                    maximizingProperty.set(false);
+                }
             }
-            maximizingProperty.set(false);
+
         }
 
     }
@@ -367,13 +367,15 @@ public class DockNode extends StackPane implements DockContainableComponent {
     public void maximizeLayout() {
         if (maximizableProperty.get()) {
             if (floatingProperty.get()) {
-
                 stageFloatable.setMaximized(true);
+                maximizingProperty.set(true);
             }
             else {
-                station.maximize(this);
+                if (station.maximize(this)) {
+                    maximizingProperty.set(true);
+                }
             }
-            maximizingProperty.set(true);
+
         }
 
     }

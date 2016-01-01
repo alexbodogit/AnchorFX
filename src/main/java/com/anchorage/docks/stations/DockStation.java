@@ -169,10 +169,11 @@ public final class DockStation extends SingleDockContainer {
         }
     }
 
-    public void maximize(DockNode node) {
+    public boolean maximize(DockNode node) {
 
-        if (!node.maximizingProperty().get()) {
+        if (!node.maximizingProperty().get() && getChildren().get(0) != node) {
             currentNodeBeforeMaximization = getChildren().get(0);
+             
             getChildren().remove(0);
 
             currentNodeMaximizedParent = node.getParent();
@@ -180,12 +181,13 @@ public final class DockStation extends SingleDockContainer {
 
             currentNodeMaximized = node;
 
+            return true;
         }
-
+        return false;
     }
 
-    public void restore(DockNode node) {
-        if (currentNodeMaximized == node) {
+    public boolean restore(DockNode node) {
+        if (currentNodeMaximized != null && currentNodeMaximized == node) {
             Pane panelParent = (Pane) currentNodeMaximizedParent;
             panelParent.getChildren().add(currentNodeMaximized);
 
@@ -193,7 +195,11 @@ public final class DockStation extends SingleDockContainer {
 
             currentNodeMaximized = null;
             currentNodeBeforeMaximization = null;
+            
+            return true;
         }
+        else
+            return false;
 
     }
 
