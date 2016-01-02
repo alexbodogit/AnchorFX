@@ -80,7 +80,7 @@ public class DockCommandsBox extends HBox {
         closeButton.getStyleClass().add("docknode-command-button-close");
         closeButton.setOnAction(e -> {
 
-            if (node.getCloseRequestHandler().canClose()) {
+            if (node.getCloseRequestHandler() != null && node.getCloseRequestHandler().canClose()) {
                 node.undock();
             }
 
