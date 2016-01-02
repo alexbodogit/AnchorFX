@@ -14,8 +14,10 @@ import javafx.scene.layout.StackPane;
 import com.anchorage.docks.containers.interfaces.DockContainableComponent;
 import com.anchorage.docks.containers.interfaces.DockContainer;
 import com.anchorage.docks.containers.subcontainers.DockTabberContainer;
+import com.anchorage.docks.node.interfaces.DockNodeCloseHandler;
 import com.anchorage.docks.stations.DockStation;
 import com.anchorage.docks.stations.DockSubStation;
+import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
@@ -70,6 +72,8 @@ public class DockNode extends StackPane implements DockContainableComponent {
     private double floatingStateWidth;
     private double floatingStateHeight;
     
+    private DockNodeCloseHandler closeHanlder;
+    
 
     private DockNode() {
 
@@ -94,6 +98,16 @@ public class DockNode extends StackPane implements DockContainableComponent {
 
         buildUI(node);
     }
+    
+    public void setOnCloseHandler(DockNodeCloseHandler handler)
+    {
+        Objects.requireNonNull(handler);
+        closeHanlder = handler;
+    }
+
+    public DockNodeCloseHandler getCloseHanlder() {
+        return closeHanlder;
+    } 
 
     public BooleanProperty floatableProperty() {
         return floatableProperty;

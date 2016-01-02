@@ -31,13 +31,12 @@ public class DockCommandsBox extends HBox {
     }
 
     private void changeCommandsState() {
- 
+
         if (node instanceof DockSubStation || !node.closeableProperty().get()) {
             closeButton.setMouseTransparent(true);
             closeButton.setOpacity(0.4);
         }
-        else
-        {
+        else {
             closeButton.setMouseTransparent(false);
             closeButton.setOpacity(1);
         }
@@ -79,7 +78,13 @@ public class DockCommandsBox extends HBox {
 
         closeButton.setGraphic(new ImageView(closeImage));
         closeButton.getStyleClass().add("docknode-command-button-close");
-        closeButton.setOnAction(e -> node.undock());
+        closeButton.setOnAction(e -> {
+
+            if (node.getCloseHanlder().canClose()) {
+                node.undock();
+            }
+
+        });
 
         node.closeableProperty().addListener((observer, oldValue, newValue) -> changeCommandsState());
         node.containerProperty().addListener((observer, oldValue, newValue) -> changeCommandsState());
