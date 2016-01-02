@@ -109,7 +109,7 @@ public final class DockUIPanel extends Pane {
     }
 
     private void manageDragEvent(MouseEvent event) {
-        if (!node.draggingProperty().get() && !(node.getParentContainer() instanceof SingleDockContainer)) {
+        if (!node.draggingProperty().get()) {
 
             if (!node.maximizingProperty().get()) {
                 Bounds bounds = node.localToScreen(barPanel.getBoundsInLocal());

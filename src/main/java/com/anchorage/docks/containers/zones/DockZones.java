@@ -107,26 +107,33 @@ public final class DockZones extends Stage {
 
         opacityAnimationPreview.setAutoReverse(true);
         opacityAnimationPreview.setCycleCount(-1);
-        
+
         mainRoot.getChildren().add(rectanglePreview);
-        
+
     }
 
     private void makeSelectors() {
         selectors = new ArrayList<>();
 
-        // selectors of station
-        selectors.add(new ZoneSelector(dragTopImage, DockNode.DOCK_POSITION.TOP, true, mainRoot, (mainRoot.getWidth() - dragTopImage.getWidth()) / 2, OFFSET_IMAGE));
-        selectors.add(new ZoneSelector(dragBottomImage, DockNode.DOCK_POSITION.BOTTOM, true, mainRoot, (mainRoot.getWidth() - dragTopImage.getWidth()) / 2, mainRoot.getHeight() - dragBottomImage.getHeight() - OFFSET_IMAGE));
-        selectors.add(new ZoneSelector(dragLeftImage, DockNode.DOCK_POSITION.LEFT, true, mainRoot, OFFSET_IMAGE, (mainRoot.getHeight() - dragLeftImage.getWidth()) / 2));
-        selectors.add(new ZoneSelector(dragRightImage, DockNode.DOCK_POSITION.RIGHT, true, mainRoot, (mainRoot.getWidth() - dragRightImage.getWidth() - OFFSET_IMAGE), (mainRoot.getHeight() - dragRightImage.getWidth()) / 2));
+        if (ownerStation.getChildren().size() > 0) {
+            // selectors of station
+            selectors.add(new ZoneSelector(dragTopImage, DockNode.DOCK_POSITION.TOP, true, mainRoot, (mainRoot.getWidth() - dragTopImage.getWidth()) / 2, OFFSET_IMAGE));
+            selectors.add(new ZoneSelector(dragBottomImage, DockNode.DOCK_POSITION.BOTTOM, true, mainRoot, (mainRoot.getWidth() - dragTopImage.getWidth()) / 2, mainRoot.getHeight() - dragBottomImage.getHeight() - OFFSET_IMAGE));
+            selectors.add(new ZoneSelector(dragLeftImage, DockNode.DOCK_POSITION.LEFT, true, mainRoot, OFFSET_IMAGE, (mainRoot.getHeight() - dragLeftImage.getWidth()) / 2));
+            selectors.add(new ZoneSelector(dragRightImage, DockNode.DOCK_POSITION.RIGHT, true, mainRoot, (mainRoot.getWidth() - dragRightImage.getWidth() - OFFSET_IMAGE), (mainRoot.getHeight() - dragRightImage.getWidth()) / 2));
 
-        // selectors of node
-        selectors.add(new ZoneSelector(dragTopImage, DockNode.DOCK_POSITION.TOP, false, circleStageRoot, (circleStageRoot.getWidth() - dragTopImage.getWidth()) / 2, OFFSET_IMAGE));
-        selectors.add(new ZoneSelector(dragBottomImage, DockNode.DOCK_POSITION.BOTTOM, false, circleStageRoot, (circleStageRoot.getWidth() - dragBottomImage.getWidth()) / 2, circleStageRoot.getHeight() - dragBottomImage.getHeight() - OFFSET_IMAGE));
-        selectors.add(new ZoneSelector(dragLeftImage, DockNode.DOCK_POSITION.LEFT, false, circleStageRoot, OFFSET_IMAGE, (circleStageRoot.getHeight() - dragLeftImage.getHeight()) / 2));
-        selectors.add(new ZoneSelector(dragRightImage, DockNode.DOCK_POSITION.RIGHT, false, circleStageRoot, circleStageRoot.getWidth() - dragRightImage.getWidth() - OFFSET_IMAGE, (circleStageRoot.getHeight() - dragRightImage.getHeight()) / 2));
-        selectors.add(new ZoneSelector(dragCenterImage, DockNode.DOCK_POSITION.CENTER, false, circleStageRoot, (circleStageRoot.getWidth() - dragCenterImage.getWidth()) / 2, (circleStageRoot.getHeight() - dragCenterImage.getHeight()) / 2));
+            // selectors of node
+            selectors.add(new ZoneSelector(dragTopImage, DockNode.DOCK_POSITION.TOP, false, circleStageRoot, (circleStageRoot.getWidth() - dragTopImage.getWidth()) / 2, OFFSET_IMAGE));
+            selectors.add(new ZoneSelector(dragBottomImage, DockNode.DOCK_POSITION.BOTTOM, false, circleStageRoot, (circleStageRoot.getWidth() - dragBottomImage.getWidth()) / 2, circleStageRoot.getHeight() - dragBottomImage.getHeight() - OFFSET_IMAGE));
+            selectors.add(new ZoneSelector(dragLeftImage, DockNode.DOCK_POSITION.LEFT, false, circleStageRoot, OFFSET_IMAGE, (circleStageRoot.getHeight() - dragLeftImage.getHeight()) / 2));
+            selectors.add(new ZoneSelector(dragRightImage, DockNode.DOCK_POSITION.RIGHT, false, circleStageRoot, circleStageRoot.getWidth() - dragRightImage.getWidth() - OFFSET_IMAGE, (circleStageRoot.getHeight() - dragRightImage.getHeight()) / 2));
+            selectors.add(new ZoneSelector(dragCenterImage, DockNode.DOCK_POSITION.CENTER, false, circleStageRoot, (circleStageRoot.getWidth() - dragCenterImage.getWidth()) / 2, (circleStageRoot.getHeight() - dragCenterImage.getHeight()) / 2));
+
+        }
+        else {
+            selectors.add(new ZoneSelector(dragCenterImage, DockNode.DOCK_POSITION.CENTER, true, mainRoot, (mainRoot.getWidth() - dragCenterImage.getWidth()) / 2, (mainRoot.getHeight() - dragCenterImage.getHeight()) / 2));
+        }
+
     }
 
     private void buildCircleStage() {
@@ -186,17 +193,18 @@ public final class DockZones extends Stage {
 
     }
 
-    public void hideZones() {
+    public void hideCircleZones() {
 
         hidePreview();
-        
+
         currentNodeTarget = null;
-        
-        if (currentZoneSelector != null)
+
+        if (currentZoneSelector != null) {
             currentZoneSelector.reset();
-        
+        }
+
         currentZoneSelector = null;
-       
+
         currentPosition = null;
         circleStageRoot.setOpacity(0);
     }
@@ -218,17 +226,17 @@ public final class DockZones extends Stage {
     public void searchArea(double x, double y) {
 
         checkVisibilityConditions();
-         
+
         ZoneSelector selector = selectors.stream()
                 .filter(s -> s.overMe(x, y) && !s.isZoneDisabled())
                 .findFirst()
                 .orElse(null);
- 
+
         highLight(selector);
 
         if (selector != null && selector != currentZoneSelector) {
             currentZoneSelector = selector;
-            makePreview(currentZoneSelector, currentNodeTarget); 
+            makePreview(currentZoneSelector, currentNodeTarget);
             currentPosition = currentZoneSelector.getPosition();
         }
         else {
@@ -264,8 +272,9 @@ public final class DockZones extends Stage {
             if (selector.isStationZone()) {
                 circleStageRoot.setOpacity(0);
             }
-            else
+            else {
                 circleStageRoot.setOpacity(1);
+            }
             selector.highLight();
 
         }
@@ -288,8 +297,7 @@ public final class DockZones extends Stage {
         }
     }
 
-    private void showPreviewForNodeSelector(ZoneSelector selector) {
-        Bounds sceneBounds = currentNodeTarget.localToScene(currentNodeTarget.getBoundsInLocal());
+    private void showPreview(Bounds sceneBounds, ZoneSelector selector) {
 
         if (selector.getPosition() == DockNode.DOCK_POSITION.LEFT) {
 
@@ -331,50 +339,7 @@ public final class DockZones extends Stage {
             rectanglePreview.setY(sceneBounds.getMinY());
             rectanglePreview.setWidth(sceneBounds.getWidth());
             rectanglePreview.setHeight(sceneBounds.getHeight());
-
         }
-        
-    }
-
-    private void showPreviewForStationSelector(ZoneSelector selector) {
-        Bounds sceneBounds = ownerStation.getBoundsInParent();
-
-        if (selector.getPosition() == DockNode.DOCK_POSITION.LEFT) {
-
-            rectanglePreview.setX(sceneBounds.getMinX());
-            rectanglePreview.setY(sceneBounds.getMinY());
-            rectanglePreview.setWidth(sceneBounds.getWidth() / 2);
-            rectanglePreview.setHeight(sceneBounds.getHeight());
-        }
-
-        if (selector.getPosition() == DockNode.DOCK_POSITION.TOP) {
-
-            rectanglePreview.setX(sceneBounds.getMinX());
-            rectanglePreview.setY(sceneBounds.getMinY());
-            rectanglePreview.setWidth(sceneBounds.getWidth());
-            rectanglePreview.setHeight(sceneBounds.getHeight() / 2);
-
-        }
-
-        if (selector.getPosition() == DockNode.DOCK_POSITION.RIGHT) {
-
-            rectanglePreview.setX(sceneBounds.getMinX() + sceneBounds.getWidth() / 2);
-            rectanglePreview.setY(sceneBounds.getMinY());
-            rectanglePreview.setWidth(sceneBounds.getWidth() / 2);
-            rectanglePreview.setHeight(sceneBounds.getHeight());
-        }
-
-        if (selector.getPosition() == DockNode.DOCK_POSITION.BOTTOM) {
-
-            rectanglePreview.setX(sceneBounds.getMinX());
-            rectanglePreview.setY(sceneBounds.getMinY() + sceneBounds.getHeight() / 2);
-            rectanglePreview.setWidth(sceneBounds.getWidth());
-            rectanglePreview.setHeight(sceneBounds.getHeight() / 2);
-
-        }
-      
-        
-        
     }
 
     private void animatePreview() {
@@ -392,13 +357,15 @@ public final class DockZones extends Stage {
 
         if (AnchorageSettings.isDockingPositionPreview()) {
 
-            if (!selector.isStationZone()) {
-                showPreviewForNodeSelector(selector);
+            if (selector.isStationZone()) {
+                Bounds sceneBounds = ownerStation.getBoundsInParent();
+                showPreview(sceneBounds,selector);
             }
             else {
-                showPreviewForStationSelector(selector);
+                Bounds sceneBounds = currentNodeTarget.localToScene(currentNodeTarget.getBoundsInLocal());
+                showPreview(sceneBounds,selector);
             }
-            
+
             animatePreview();
         }
 

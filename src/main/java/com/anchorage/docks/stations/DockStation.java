@@ -98,17 +98,18 @@ public final class DockStation extends SingleDockContainer {
 
             currentNodeTarget = node;
             dockZones.moveAt(node);
-            dockZones.searchArea(x, y);
+            
 
         }).orElse((Runnable) () -> {
 
             if (currentNodeTarget != null) {
-                dockZones.hideZones();
+                dockZones.hideCircleZones();
 
             }
 
         }).run();
-
+        
+        dockZones.searchArea(x, y);
     }
 
     public void addOverlay(Node node) {

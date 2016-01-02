@@ -306,7 +306,8 @@ public class DockNode extends StackPane implements DockContainableComponent {
 
         restore();
 
-        if (getParentContainer() != null && !(getParentContainer() instanceof SingleDockContainer)) {
+        
+        if (getParentContainer() != null) {
             getParentContainer().undock(this);
             station.remove(this);
         }
