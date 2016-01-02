@@ -11,7 +11,7 @@ package com.anchorage.docks.node.interfaces;
  */
 
 @FunctionalInterface
-public interface DockNodeCloseHandler {
+public interface DockNodeCloseRequestHandler {
     
     public boolean canClose();
 }
