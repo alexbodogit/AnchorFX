@@ -177,6 +177,15 @@ public final class DockUIPanel extends Pane {
         contentPanel.prefWidthProperty().bind(widthProperty());
         contentPanel.prefHeightProperty().bind(heightProperty().subtract(BAR_HEIGHT));
         contentPanel.getChildren().add(nodeContent);
+        
+        if (nodeContent instanceof Pane)
+        {
+            Pane nodeContentPane = (Pane)nodeContent;
+            nodeContentPane.setMinHeight(USE_COMPUTED_SIZE);
+            nodeContentPane.setMinWidth(USE_COMPUTED_SIZE);
+            nodeContentPane.setMaxWidth(USE_COMPUTED_SIZE);
+            nodeContentPane.setMaxHeight(USE_COMPUTED_SIZE);
+        }
 
         getChildren().addAll(barPanel, contentPanel);
     }
