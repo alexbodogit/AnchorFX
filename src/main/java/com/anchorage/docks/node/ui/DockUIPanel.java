@@ -5,7 +5,6 @@
  */
 package com.anchorage.docks.node.ui;
 
-import com.anchorage.docks.containers.SingleDockContainer;
 import com.anchorage.docks.node.DockNode;
 import java.util.Objects;
 import javafx.beans.property.StringProperty;
@@ -128,7 +127,7 @@ public final class DockUIPanel extends Pane {
                     node.moveFloatable(event.getScreenX() - deltaDragging.getX(),
                                        event.getScreenY() - deltaDragging.getY());
 
-                    node.getStation().searchTargetNode(event.getScreenX(), event.getScreenY());
+                    node.stationProperty().get().searchTargetNode(event.getScreenX(), event.getScreenY());
                 }
             }
         }
@@ -136,7 +135,7 @@ public final class DockUIPanel extends Pane {
 
     private void manageReleaseEvent() {
         if (node.draggingProperty().get() && !node.maximizingProperty().get()) {
-            node.getStation().finalizeDrag();
+            node.stationProperty().get().finalizeDrag();
         }
     }
 

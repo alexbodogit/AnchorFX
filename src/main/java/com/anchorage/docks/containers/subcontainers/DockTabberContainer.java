@@ -9,8 +9,6 @@ import com.anchorage.docks.containers.common.DockCommons;
 import com.anchorage.docks.containers.interfaces.DockContainableComponent;
 import com.anchorage.docks.containers.interfaces.DockContainer;
 import com.anchorage.docks.node.DockNode;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -148,7 +146,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
 
             container = splitter;
 
-            node.getStation().add(node);
+            node.stationProperty().get().add(node);
         }
     }
 

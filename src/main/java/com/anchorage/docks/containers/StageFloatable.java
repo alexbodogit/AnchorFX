@@ -95,14 +95,12 @@ public class StageFloatable extends Stage {
                         setWidth(event.getScreenX() - getX() + FLOATING_NODE_DROPSHADOW_RADIUS);
                     }
                 }
-
-                if (getScene().getCursor() == Cursor.S_RESIZE || getScene().getCursor() == Cursor.SE_RESIZE || getScene().getCursor() == Cursor.SW_RESIZE) {
+                else if (getScene().getCursor() == Cursor.S_RESIZE || getScene().getCursor() == Cursor.SE_RESIZE || getScene().getCursor() == Cursor.SW_RESIZE) {
                     if (event.getScreenY() - getY() + FLOATING_NODE_DROPSHADOW_RADIUS > FLOATING_NODE_MINIMUM_HEIGHT) {
                         setHeight(event.getScreenY() - getY() + FLOATING_NODE_DROPSHADOW_RADIUS);
                     }
                 }
-
-                if (getScene().getCursor() == Cursor.W_RESIZE || getScene().getCursor() == Cursor.NW_RESIZE || getScene().getCursor() == Cursor.SW_RESIZE) {
+                else if (getScene().getCursor() == Cursor.W_RESIZE || getScene().getCursor() == Cursor.NW_RESIZE || getScene().getCursor() == Cursor.SW_RESIZE) {
 
                     double newX = event.getScreenX() - FLOATING_NODE_DROPSHADOW_RADIUS;
                     double newWidth = startX - newX + startWidth;
@@ -113,8 +111,7 @@ public class StageFloatable extends Stage {
                     }
 
                 }
-
-                if (getScene().getCursor() == Cursor.N_RESIZE || getScene().getCursor() == Cursor.NW_RESIZE || getScene().getCursor() == Cursor.NE_RESIZE) {
+                else if (getScene().getCursor() == Cursor.N_RESIZE || getScene().getCursor() == Cursor.NW_RESIZE || getScene().getCursor() == Cursor.NE_RESIZE) {
 
                     double newY = event.getScreenY() - FLOATING_NODE_DROPSHADOW_RADIUS;
                     double newHeight = startY - newY + startHeight;
@@ -127,8 +124,7 @@ public class StageFloatable extends Stage {
                 }
 
             }
-
-            if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
+            else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
 
             }
         };
@@ -242,11 +238,11 @@ public class StageFloatable extends Stage {
 
     public void makeNodeActiveOnFloatableStage() {
 
-        DockStation station = node.getStation();  // save the station
+        DockStation station = node.stationProperty().get();  // save the station
 
         node.undock();
 
-        node.setStation(station); // resume station
+        node.stationProperty().set(station); // resume station
 
         stackPanelContainer.getChildren().remove(imageView);
 

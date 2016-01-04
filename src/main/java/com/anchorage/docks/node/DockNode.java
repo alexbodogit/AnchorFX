@@ -19,11 +19,13 @@ import com.anchorage.docks.stations.DockStation;
 import com.anchorage.docks.stations.DockSubStation;
 import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -47,23 +49,21 @@ public class DockNode extends StackPane implements DockContainableComponent {
         CENTER
     }
 
-    private DockUIPanel content;
-
-    private DockContainer container;
-
-    private DockStation station;
+    private DockUIPanel content; 
 
     private BooleanProperty floatableProperty;
     private BooleanProperty closeableProperty;
     private BooleanProperty resizableProperty;
     private BooleanProperty maximizableProperty;
 
+    private ObjectProperty<DockStation> station;
     private ReadOnlyBooleanWrapper floatingProperty;
     private ReadOnlyBooleanWrapper draggingProperty;
     private ReadOnlyBooleanWrapper resizingProperty;
     private ReadOnlyBooleanWrapper maximizingProperty;
 
-    private ReadOnlyObjectWrapper<DockContainer> containerProperty;
+    private ReadOnlyObjectWrapper<DockContainer> container;
+    
 
     private StageFloatable stageFloatable;
 
@@ -77,6 +77,8 @@ public class DockNode extends StackPane implements DockContainableComponent {
 
     private DockNode() {
 
+        station = new SimpleObjectProperty<>(null);
+        
         floatableProperty = new SimpleBooleanProperty(true);
         closeableProperty = new SimpleBooleanProperty(true);
         resizableProperty = new SimpleBooleanProperty(true);
@@ -87,7 +89,8 @@ public class DockNode extends StackPane implements DockContainableComponent {
         resizingProperty = new ReadOnlyBooleanWrapper(false);
         maximizingProperty = new ReadOnlyBooleanWrapper(false);
 
-        containerProperty = new ReadOnlyObjectWrapper<>(null);
+        container = new ReadOnlyObjectWrapper<>(null);
+        
     }
 
     public DockNode(DockUIPanel node) {
@@ -138,8 +141,8 @@ public class DockNode extends StackPane implements DockContainableComponent {
         return maximizingProperty.getReadOnlyProperty();
     }
 
-    public ReadOnlyObjectProperty containerProperty() {
-        return containerProperty.getReadOnlyProperty();
+    public ReadOnlyObjectProperty<DockContainer> containerProperty() {
+        return container.getReadOnlyProperty();
     }
 
     public void setIcon(Image icon) {
@@ -154,11 +157,11 @@ public class DockNode extends StackPane implements DockContainableComponent {
     }
 
     public boolean isDockVisible() {
-        if (container == null || floatingProperty.get()) {
+        if (containerProperty().get() == null || floatingProperty.get()) {
             return true;
         }
         else {
-            return container.isDockVisible(this);
+            return container.get().isDockVisible(this);
         }
     }
 
@@ -202,10 +205,10 @@ public class DockNode extends StackPane implements DockContainableComponent {
     public void enableDraggingOnPosition(double x, double y) {
         draggingProperty.set(true);
 
-        makeGhostFloatable(station.getScene().getWindow(), x, y);
+        makeGhostFloatable(station.get().getScene().getWindow(), x, y);
 
         if (!maximizingProperty().get()) {
-            getStation().prepareZones(this);
+            station.get().prepareZones(this);
         }
     }
 
@@ -249,28 +252,19 @@ public class DockNode extends StackPane implements DockContainableComponent {
      *
      * @return the value of station
      */
-    public DockStation getStation() {
+    public ObjectProperty<DockStation> stationProperty() {
         return station;
     }
-
-    /**
-     * Set the value of station
-     *
-     * @param station new value of station
-     */
-    public void setStation(DockStation station) {
-        this.station = station;
-    }
+ 
 
     @Override
     public void setParentContainer(DockContainer container) {
-        this.container = container;
-        containerProperty.set(container);
+        this.container.set(container);
     }
 
     @Override
     public DockContainer getParentContainer() {
-        return container;
+        return container.get();
     }
 
     public void dockAsFloating(Window owner, DockStation station, double x, double y, double width, double height) {
@@ -278,33 +272,33 @@ public class DockNode extends StackPane implements DockContainableComponent {
         makeNodeActiveOnFloatableStage(owner, x, y);
         stageFloatable.setWidth(width);
         stageFloatable.setHeight(height);
-        setStation((DockStation) station);
+        this.station.set((DockStation) station);
     }
 
     public void dock(DockStation station, DockNode.DOCK_POSITION position) {
         station.add(this);
         station.putDock(this, position, 0.5);
-        setStation((DockStation) station);
+        this.station.set((DockStation) station);
     }
 
     public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position) {
 
-        nodeTarget.getStation().add(this);
+        nodeTarget.stationProperty().get().add(this);
         nodeTarget.getParentContainer().putDock(this, nodeTarget, position, 0.5);
-        setStation(nodeTarget.getStation());
+        station.set(nodeTarget.station.get());
     }
 
     public void dock(DockStation station, DockNode.DOCK_POSITION position, double percentage) {
         station.add(this);
         station.putDock(this, position, percentage);
-        setStation((DockStation) station);
+        this.station.set((DockStation) station);
     }
 
     public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
 
-        nodeTarget.getStation().add(this);
+        nodeTarget.stationProperty().get().add(this);
         nodeTarget.getParentContainer().putDock(this, nodeTarget, position, percentage);
-        setStation(nodeTarget.getStation());
+        station.set(nodeTarget.station.get());
     }
 
     public void dock(DockSubStation subStation, DockNode.DOCK_POSITION position) {
@@ -324,11 +318,11 @@ public class DockNode extends StackPane implements DockContainableComponent {
         
         if (getParentContainer() != null) {
             getParentContainer().undock(this);
-            station.remove(this);
+            station.get().remove(this);
         }
         else if (floatingProperty.get()) {
             closeFloatingStage();
-            station.remove(this);
+            station.get().remove(this);
         }
     }
 
@@ -358,7 +352,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
     }
 
     public boolean insideTabContainer() {
-        return container instanceof DockTabberContainer;
+        return container.get() instanceof DockTabberContainer;
     }
 
     public void maximizeOrRestore() {
@@ -382,7 +376,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
                 maximizingProperty.set(false);
             }
             else {
-                if (station.restore(this)) {
+                if (station.get().restore(this)) {
                     maximizingProperty.set(false);
                 }
             }
@@ -415,7 +409,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
                 maximizingProperty.set(true);
             }
             else {
-                if (station.maximize(this)) {
+                if (station.get().maximize(this)) {
                     maximizingProperty.set(true);
                 }
             }
