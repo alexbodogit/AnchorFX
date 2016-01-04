@@ -15,6 +15,7 @@ import com.anchorage.docks.containers.interfaces.DockContainableComponent;
 import com.anchorage.docks.containers.interfaces.DockContainer;
 import com.anchorage.docks.containers.subcontainers.DockTabberContainer;
 import com.anchorage.docks.node.interfaces.DockNodeCloseRequestHandler;
+import com.anchorage.docks.node.interfaces.DockNodeCreationListener;
 import com.anchorage.docks.stations.DockStation;
 import com.anchorage.docks.stations.DockSubStation;
 import java.util.Objects;
@@ -100,6 +101,16 @@ public class DockNode extends StackPane implements DockContainableComponent {
         this.content = node;
 
         buildUI(node);
+        
+        callCreationCallBack();
+    }
+    
+    private void callCreationCallBack()
+    {
+        if (content.getNodeContent() instanceof DockNodeCreationListener)
+        {
+            ((DockNodeCreationListener)content.getNodeContent()).onDockNodeCreated(this);
+        }
     }
     
     public void setCloseRequestHandler(DockNodeCloseRequestHandler handler)
