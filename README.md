@@ -41,10 +41,25 @@ A DockNode is the window built around your panel. This window has a title and an
 * Maximizable
 * Floatable
 
-If we want to create a knot that can not be closed, we will write
+If we want to create a node that can not be closed, we will write
 
 ```java
 dockNode.closeableProperty().set(false);
+```
+
+##### Get ower DockNode from content panel
+
+To know the reference of DockNode that contains your panel, implements the DockNodeCreationListener interface in your panel.
+
+```java
+class MyPanel extends Pane implements DockNodeCreationListener {
+ 
+    @Override
+    public void onDockNodeCreated(DockNode node) {
+         // now you can work with events of your DockNode 
+    }
+
+}
 ```
 
 ##### Add a DockNode to a Dockstation
@@ -195,3 +210,4 @@ The examples will use the functionality described
  * AnchorFX_test.java
  * AnchorFX_substations.java
  * AnchorFX_settings.java
+ * AnchorFX_events.java
