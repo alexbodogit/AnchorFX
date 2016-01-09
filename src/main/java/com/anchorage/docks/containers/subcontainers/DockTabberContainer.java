@@ -150,4 +150,10 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
         }
     }
 
+    public void ensureVisibility(DockNode node) {
+       
+        Tab tabNode = getTabByNode(node);
+        getSelectionModel().select(tabNode);
+    }
+
 }

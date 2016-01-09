@@ -113,6 +113,14 @@ public class DockNode extends StackPane implements DockContainableComponent {
         }
     }
     
+    public void ensureVisibility()
+    {
+        if (container.get() instanceof DockTabberContainer)
+        {
+            ((DockTabberContainer)container.get()).ensureVisibility(this);
+        }
+    }
+    
     public void setCloseRequestHandler(DockNodeCloseRequestHandler handler)
     {
         Objects.requireNonNull(handler);
