@@ -203,7 +203,7 @@ The nodes that are associated with a DockSubStation can only be moved within the
  
  
  
-## Explore demos on test package
+## Explore the examples on test package
 
 The examples will use the functionality described
 
@@ -211,3 +211,4 @@ The examples will use the functionality described
  * AnchorFX_substations.java
  * AnchorFX_settings.java
  * AnchorFX_events.java
+ * AnchorFX_CommonStations.java
