@@ -48,6 +48,7 @@ public final class DockSubStation extends DockNode {
     public DockSubStation(DockUIPanel uiPanel) {
         super(uiPanel);
         substation = (DockStation)getContent().getNodeContent();
+        substation.markAsSubStation(this);
     }
     
 }

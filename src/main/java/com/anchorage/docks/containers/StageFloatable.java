@@ -226,7 +226,7 @@ public class StageFloatable extends Stage {
 
         stackPanelContainer.getStyleClass().add("docknode-floating-stack-container-panel");
 
-        stackPanelContainer.setEffect(new DropShadow(BlurType.THREE_PASS_BOX, new Color(0, 0, 0, 0.6), FLOATING_NODE_DROPSHADOW_RADIUS, 0.2, 0, 0));
+        stackPanelContainer.setEffect(new DropShadow(BlurType.GAUSSIAN, new Color(0, 0, 0, 0.6), FLOATING_NODE_DROPSHADOW_RADIUS, 0.2, 0, 0));
 
         stackPanelContainer.relocate(FLOATING_NODE_DROPSHADOW_RADIUS, FLOATING_NODE_DROPSHADOW_RADIUS);
     }
@@ -262,6 +262,10 @@ public class StageFloatable extends Stage {
 
     public void makeFloatable() {
 
+    }
+
+    public Insets getPaddingOffset() {
+        return stackPanelContainer.getPadding();
     }
 
 }

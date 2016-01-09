@@ -25,7 +25,7 @@ import javafx.scene.layout.StackPane;
  */
 public final class DockUIPanel extends Pane {
 
-    private static final double BAR_HEIGHT = 30;
+    public static final double BAR_HEIGHT = 30;
 
     private Parent nodeContent;
     private Label titleLabel;

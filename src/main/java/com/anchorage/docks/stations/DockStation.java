@@ -13,8 +13,6 @@ import com.anchorage.docks.containers.zones.ZoneSelector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -35,9 +33,13 @@ public final class DockStation extends SingleDockContainer {
     private Node currentNodeBeforeMaximization;
     private DockNode currentNodeMaximized;
     private Parent currentNodeMaximizedParent;
+    private boolean substation;
+    
+    private DockSubStation dockNodeForSubstation;
 
     public DockStation() {
         nodes = new ArrayList<>();
+        substation = false;
         buildUI();
     }
 
@@ -69,6 +71,11 @@ public final class DockStation extends SingleDockContainer {
 
         }
 
+    }
+    
+    public boolean isSubStation()
+    {
+        return substation;
     }
 
     public void add(DockNode node) {
@@ -203,6 +210,16 @@ public final class DockStation extends SingleDockContainer {
         else
             return false;
 
+    }
+
+    public void markAsSubStation(DockSubStation dockNodeForSubstation) {
+        substation = true;
+        this.dockNodeForSubstation = dockNodeForSubstation;
+    }
+    
+    public DockSubStation getDockNodeForSubStation()
+    {
+        return dockNodeForSubstation;
     }
 
     

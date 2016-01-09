@@ -26,7 +26,7 @@ public class AnchorFX_settings extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        AnchorageSettings.setDockingPositionPreview(false);
+        //AnchorageSettings.setDockingPositionPreview(false);
         
         DockStation station = AnchorageSystem.createStation();
 

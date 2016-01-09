@@ -6,14 +6,18 @@
 package com.anchorage.docks.containers.zones;
 
 import com.anchorage.docks.containers.common.AnchorageSettings;
+import static com.anchorage.docks.containers.common.AnchorageSettings.FLOATING_NODE_DROPSHADOW_RADIUS;
 import com.anchorage.docks.node.DockNode;
+import com.anchorage.docks.node.ui.DockUIPanel;
 import com.anchorage.docks.stations.DockStation;
+import com.anchorage.docks.stations.DockSubStation;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -362,7 +366,18 @@ public final class DockZones extends Stage {
                 showPreview(sceneBounds,selector);
             }
             else {
-                Bounds sceneBounds = currentNodeTarget.localToScene(currentNodeTarget.getBoundsInLocal());
+                Bounds sceneBounds = currentNodeTarget.localToScene(currentNodeTarget.getBoundsInParent());
+                if (ownerStation.isSubStation())
+                {
+                    DockSubStation subStationNode = ownerStation.getDockNodeForSubStation();
+                    if (subStationNode.floatingProperty().get())
+                    {
+                        sceneBounds = new BoundingBox(sceneBounds.getMinX()-FLOATING_NODE_DROPSHADOW_RADIUS-subStationNode.getFloatableStage().getPaddingOffset().getLeft(),
+                        sceneBounds.getMinY()-FLOATING_NODE_DROPSHADOW_RADIUS-subStationNode.getFloatableStage().getPaddingOffset().getTop()-DockUIPanel.BAR_HEIGHT,
+                        sceneBounds.getWidth(),
+                        sceneBounds.getHeight());
+                    }
+                }
                 showPreview(sceneBounds,selector);
             }
 
