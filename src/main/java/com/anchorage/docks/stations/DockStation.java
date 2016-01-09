@@ -34,13 +34,35 @@ public final class DockStation extends SingleDockContainer {
     private DockNode currentNodeMaximized;
     private Parent currentNodeMaximizedParent;
     private boolean substation;
-    
+
     private DockSubStation dockNodeForSubstation;
+
+    private boolean commonStation;
+
+    private boolean selected = false;
+
+    /**
+     * Get the value of selected
+     *
+     * @return the value of selected
+     */
+    public boolean isSelected() {
+        return selected;
+    }
 
     public DockStation() {
         nodes = new ArrayList<>();
         substation = false;
         buildUI();
+    }
+
+    public DockStation(boolean commonStation) {
+        this();
+        this.commonStation = commonStation;
+    }
+
+    public boolean isCommonStation() {
+        return commonStation;
     }
 
     private void buildUI() {
@@ -72,9 +94,8 @@ public final class DockStation extends SingleDockContainer {
         }
 
     }
-    
-    public boolean isSubStation()
-    {
+
+    public boolean isSubStation() {
         return substation;
     }
 
@@ -92,9 +113,12 @@ public final class DockStation extends SingleDockContainer {
 
     public void searchTargetNode(double x, double y) {
 
-        if (currentNodeMaximized != null) 
-            return;
+        selected = false;
         
+        if (currentNodeMaximized != null) {
+            return;
+        }
+
         Optional<DockNode> nodeTarget = nodes.stream()
                 .filter(node
                         -> !node.floatingProperty().get()
@@ -105,7 +129,6 @@ public final class DockStation extends SingleDockContainer {
 
             currentNodeTarget = node;
             dockZones.moveAt(node);
-            
 
         }).orElse((Runnable) () -> {
 
@@ -115,8 +138,8 @@ public final class DockStation extends SingleDockContainer {
             }
 
         }).run();
-        
-        dockZones.searchArea(x, y);
+
+        selected = dockZones.searchArea(x, y);
     }
 
     public void addOverlay(Node node) {
@@ -139,8 +162,10 @@ public final class DockStation extends SingleDockContainer {
 
     public void finalizeDrag() {
 
-        if (currentNodeMaximized != null) return; 
-        
+        if (currentNodeMaximized != null) {
+            return;
+        }
+
         ZoneSelector selector = dockZones.getCurrentZoneSelector();
 
         if (selector == null) {
@@ -156,12 +181,16 @@ public final class DockStation extends SingleDockContainer {
                 manageDockDestination();
             }
         }
-
-        dockZones.close();
+ 
     }
 
+    public void closeZones()
+    {
+        dockZones.close();
+    }
+    
     private void manageDockDestination() {
-        
+
         if (dockZones.getCurrentNodeTarget() == dockZones.getNodeSource()) {
             if (dockZones.getCurrentNodeTarget().getParentContainer() instanceof DockTabberContainer
                     && dockZones.getCurrentPosition() != DockNode.DOCK_POSITION.CENTER) {
@@ -181,11 +210,11 @@ public final class DockStation extends SingleDockContainer {
 
         if (!node.maximizingProperty().get() && getChildren().get(0) != node) {
             currentNodeBeforeMaximization = getChildren().get(0);
-             
+
             getChildren().remove(0);
 
             currentNodeMaximizedParent = node.getParent();
-            
+
             getChildren().add(node);
 
             currentNodeMaximized = node;
@@ -204,11 +233,12 @@ public final class DockStation extends SingleDockContainer {
 
             currentNodeMaximized = null;
             currentNodeBeforeMaximization = null;
-            
+
             return true;
         }
-        else
+        else {
             return false;
+        }
 
     }
 
@@ -216,11 +246,9 @@ public final class DockStation extends SingleDockContainer {
         substation = true;
         this.dockNodeForSubstation = dockNodeForSubstation;
     }
-    
-    public DockSubStation getDockNodeForSubStation()
-    {
+
+    public DockSubStation getDockNodeForSubStation() {
         return dockNodeForSubstation;
     }
 
-    
 }

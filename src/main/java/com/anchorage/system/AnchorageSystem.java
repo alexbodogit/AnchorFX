@@ -27,6 +27,7 @@ public class AnchorageSystem {
     private static final Image emptyIconImage;
     private static final Image emptySubstationIconImage;
     
+    private static DockStation currentStationFromDrag;
 
     static {
         stations = new ArrayList<>();
@@ -40,19 +41,25 @@ public class AnchorageSystem {
         return station;
     }
 
+    public static DockStation createCommonStation() {
+        DockStation station = new DockStation(true);
+        stations.add(station);
+        return station;
+    }
+
     public static DockSubStation createSubStation(DockStation parentStation, String title) {
-        DockSubStation station = new DockSubStation(new DockUIPanel(title, new DockStation(),true,emptySubstationIconImage));
+        DockSubStation station = new DockSubStation(new DockUIPanel(title, new DockStation(), true, emptySubstationIconImage));
         return station;
     }
 
     public static DockNode createDock(String title, Parent content) {
-        DockUIPanel panel = new DockUIPanel(title, content,false,emptyIconImage);
+        DockUIPanel panel = new DockUIPanel(title, content, false, emptyIconImage);
         DockNode container = new DockNode(panel);
         return container;
     }
-    
+
     public static DockNode createDock(String title, Parent content, Image icon) {
-        DockUIPanel panel = new DockUIPanel(title, content,false,icon);
+        DockUIPanel panel = new DockUIPanel(title, content, false, icon);
         DockNode container = new DockNode(panel);
         return container;
     }
@@ -62,4 +69,29 @@ public class AnchorageSystem {
                 .addUserAgentStylesheet("AnchorFX.css");
     }
 
+    public static void prepareDraggingZoneFor(DockStation station, DockNode source) {
+        currentStationFromDrag = station;
+        station.prepareZones(source);
+        if (station.isCommonStation()) {
+            stations.stream().filter(s->s!=station && s.isCommonStation()).forEach(s->s.prepareZones(source));
+        }
+    }
+    
+    public static void searchTargetNode(double x, double y) 
+    {
+        if (currentStationFromDrag.isCommonStation())
+            stations.stream().filter(s->s.isCommonStation()).forEach(s->s.searchTargetNode(x,y));
+        else
+            currentStationFromDrag.searchTargetNode(x, y);
+    }
+    
+    public static void finalizeDragging()
+    {
+        stations.stream().forEach(s->s.closeZones());
+        DockStation selectedStation = stations.stream().filter(s->s.isSelected()).findFirst().orElse(null);
+        if (selectedStation != null)
+            selectedStation.finalizeDrag();
+        else
+            currentStationFromDrag.finalizeDrag();
+    }
 }

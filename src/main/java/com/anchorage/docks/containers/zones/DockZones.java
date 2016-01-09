@@ -227,7 +227,7 @@ public final class DockZones extends Stage {
         }
     }
 
-    public void searchArea(double x, double y) {
+    public boolean searchArea(double x, double y) {
 
         checkVisibilityConditions();
 
@@ -242,6 +242,7 @@ public final class DockZones extends Stage {
             currentZoneSelector = selector;
             makePreview(currentZoneSelector, currentNodeTarget);
             currentPosition = currentZoneSelector.getPosition();
+             
         }
         else {
             if (selector == null) {
@@ -250,6 +251,7 @@ public final class DockZones extends Stage {
                 currentPosition = null;
             }
         }
+        return selector != null;
     }
 
     public DockNode getCurrentNodeTarget() {

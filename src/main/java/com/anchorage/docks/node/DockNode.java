@@ -18,6 +18,7 @@ import com.anchorage.docks.node.interfaces.DockNodeCloseRequestHandler;
 import com.anchorage.docks.node.interfaces.DockNodeCreationListener;
 import com.anchorage.docks.stations.DockStation;
 import com.anchorage.docks.stations.DockSubStation;
+import com.anchorage.system.AnchorageSystem;
 import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -227,7 +228,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         makeGhostFloatable(station.get().getScene().getWindow(), x, y);
 
         if (!maximizingProperty().get()) {
-            station.get().prepareZones(this);
+            AnchorageSystem.prepareDraggingZoneFor(station.get(),this);
         }
     }
 
