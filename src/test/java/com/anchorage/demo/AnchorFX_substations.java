@@ -35,6 +35,7 @@ public class AnchorFX_substations extends Application {
 
         DockNode subNode = AnchorageSystem.createDock("subNode 1", new TableView());
         subNode.dock(station1, DockNode.DOCK_POSITION.LEFT);
+        subNode.floatableProperty().set(false);
 
         DockNode subNode2 = AnchorageSystem.createDock("subNode 2", new TableView());
         subNode2.dock(station1, DockNode.DOCK_POSITION.LEFT);

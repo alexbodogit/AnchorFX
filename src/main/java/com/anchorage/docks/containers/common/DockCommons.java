@@ -92,6 +92,8 @@ public class DockCommons {
             
             tabber.getStyleClass().add("docknode-tab-pane");
             
+            newDockNode.ensureVisibility();
+            
             return tabber;
         }  
         return null;

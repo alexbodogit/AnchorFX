@@ -368,10 +368,17 @@ public final class DockZones extends Stage {
                 showPreview(sceneBounds,selector);
             }
             else {
-                Bounds sceneBounds = currentNodeTarget.localToScene(currentNodeTarget.getBoundsInParent());
+                Bounds nodeSceneBounds = currentNodeTarget.localToScene(currentNodeTarget.getBoundsInLocal());
+                Bounds stationSceneBounds = ownerStation.localToScene(ownerStation.getBoundsInLocal());
+                
+                Bounds sceneBounds = new BoundingBox(nodeSceneBounds.getMinX()-stationSceneBounds.getMinX(),
+                                                     nodeSceneBounds.getMinY()-stationSceneBounds.getMinY(),
+                                                     nodeSceneBounds.getWidth(),nodeSceneBounds.getHeight());
+                
                 if (ownerStation.isSubStation())
                 {
                     DockSubStation subStationNode = ownerStation.getDockNodeForSubStation();
+                    
                     if (subStationNode.floatingProperty().get())
                     {
                         sceneBounds = new BoundingBox(sceneBounds.getMinX()-FLOATING_NODE_DROPSHADOW_RADIUS-subStationNode.getFloatableStage().getPaddingOffset().getLeft(),

@@ -23,13 +23,18 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
 
     @Override
     public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage) {
-
+        Tab newTab = new Tab(node.getContent().titleProperty().get());
+        newTab.closableProperty().bind(node.closeableProperty());
+        getTabs().add(newTab);
+        newTab.setContent(node);
+        node.setParentContainer(this);
+        node.ensureVisibility();
     }
 
     private void createSplitter(DockNode node, DockNode.DOCK_POSITION position) {
         DockContainer currentContainer = container;
 
-        DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position,0.5);
+        DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position, 0.5);
 
         int indexOf = currentContainer.indexOf(this);
 
@@ -54,8 +59,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
     public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
         if (position != DockNode.DOCK_POSITION.CENTER) {
             createSplitter(node, position);
-        }
-        else {
+        } else {
 
             DockContainableComponent containableComponent = (DockContainableComponent) node;
             if (containableComponent.getParentContainer() != this) {
@@ -64,6 +68,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
                 getTabs().add(newTab);
                 newTab.setContent(node);
                 node.setParentContainer(this);
+                node.ensureVisibility();
             }
         }
     }
@@ -129,14 +134,13 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
             DockNode otherNode = (getTabs().get(0).getContent() == node) ? (DockNode) getTabs().get(1).getContent() : (DockNode) getTabs().get(0).getContent();
             node.undock();
             node.dock(otherNode, position);
-        }
-        else if (getTabByNode(node) != null && getTabs().size() > 2) {
+        } else if (getTabByNode(node) != null && getTabs().size() > 2) {
 
             node.undock();
 
             DockContainer currentContainer = container;
 
-            DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position,0.5);
+            DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position, 0.5);
 
             int indexOf = currentContainer.indexOf(this);
 
@@ -151,7 +155,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
     }
 
     public void ensureVisibility(DockNode node) {
-       
+
         Tab tabNode = getTabByNode(node);
         getSelectionModel().select(tabNode);
     }

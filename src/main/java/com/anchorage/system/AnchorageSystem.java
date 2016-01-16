@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 
 /**
@@ -26,7 +27,7 @@ public class AnchorageSystem {
     private static DockNode nodeInDragging;
     private static final Image emptyIconImage;
     private static final Image emptySubstationIconImage;
-    
+
     private static DockStation currentStationFromDrag;
 
     static {
@@ -52,7 +53,7 @@ public class AnchorageSystem {
         return station;
     }
 
-    public static DockNode createDock(String title, Parent content) {
+    public static DockNode createDock(String title, Node content) {
         DockUIPanel panel = new DockUIPanel(title, content, false, emptyIconImage);
         DockNode container = new DockNode(panel);
         return container;
@@ -72,26 +73,39 @@ public class AnchorageSystem {
     public static void prepareDraggingZoneFor(DockStation station, DockNode source) {
         currentStationFromDrag = station;
         station.prepareZones(source);
+        if (currentStationFromDrag.isSubStation())
+            return;
         if (station.isCommonStation()) {
-            stations.stream().filter(s->s!=station && s.isCommonStation()).forEach(s->s.prepareZones(source));
+            stations.stream().filter(s -> s != station && s.isCommonStation()).forEach(s -> s.prepareZones(source));
         }
     }
-    
-    public static void searchTargetNode(double x, double y) 
-    {
-        if (currentStationFromDrag.isCommonStation())
-            stations.stream().filter(s->s.isCommonStation()).forEach(s->s.searchTargetNode(x,y));
-        else
+
+    public static void searchTargetNode(double x, double y) {
+        
+        if (currentStationFromDrag.isCommonStation() && !currentStationFromDrag.isSubStation()) {
+            stations.stream().filter(s -> s.isCommonStation()).forEach(s -> s.searchTargetNode(x, y));
+        } else {
             currentStationFromDrag.searchTargetNode(x, y);
+        }
     }
-    
-    public static void finalizeDragging()
-    {
-        stations.stream().forEach(s->s.closeZones());
-        DockStation selectedStation = stations.stream().filter(s->s.isSelected()).findFirst().orElse(null);
-        if (selectedStation != null)
-            selectedStation.finalizeDrag();
-        else
+
+    public static void finalizeDragging() {
+        if (currentStationFromDrag.isSubStation()) {
+            currentStationFromDrag.closeZones();
             currentStationFromDrag.finalizeDrag();
+        } else {
+            if (currentStationFromDrag.isCommonStation())
+                stations.stream().filter(s -> s.isCommonStation()).forEach(s -> s.closeZones());
+            else
+                currentStationFromDrag.closeZones();
+            
+            DockStation selectedStation = stations.stream().filter(s -> s.isSelected()).findFirst().orElse(null);
+            if (selectedStation != null && currentStationFromDrag.isCommonStation()) {
+                selectedStation.finalizeDrag();
+            } else {
+                currentStationFromDrag.finalizeDrag();
+            }
+        }
+
     }
 }

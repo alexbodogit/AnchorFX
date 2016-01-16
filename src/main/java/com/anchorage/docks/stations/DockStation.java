@@ -88,9 +88,7 @@ public final class DockStation extends SingleDockContainer {
 
         if (currentNodeMaximized == null) {
             dockZones = new DockZones(this, nodeToMove);
-
             dockZones.showZones();
-
         }
 
     }
@@ -108,6 +106,7 @@ public final class DockStation extends SingleDockContainer {
     public void remove(DockNode node) {
         if (nodes.contains(node)) {
             nodes.remove(node);
+            node.stationProperty().set(null);
         }
     }
 
@@ -186,7 +185,7 @@ public final class DockStation extends SingleDockContainer {
 
     public void closeZones()
     {
-        dockZones.close();
+       dockZones.close();
     }
     
     private void manageDockDestination() {

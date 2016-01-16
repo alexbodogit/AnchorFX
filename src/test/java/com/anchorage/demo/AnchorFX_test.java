@@ -30,15 +30,24 @@ public class AnchorFX_test extends Application {
         DockStation station = AnchorageSystem.createStation();
 
         Scene scene = new Scene(station, 1024, 768);
-      
-        DockNode node1 = AnchorageSystem.createDock("Tree", generateRandomTree());
-        node1.dock(station, DockNode.DOCK_POSITION.CENTER);
-  
-        DockNode node2 = AnchorageSystem.createDock("Editor", new HTMLEditor());
-        node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
         
-        DockNode node3 = AnchorageSystem.createDock("Below the editor", generateRandomTree());
-        node3.dock(node2, DockNode.DOCK_POSITION.BOTTOM,0.8);
+        DockNode node1 = AnchorageSystem.createDock("Not floatable", new HTMLEditor());
+        node1.dock(station, DockNode.DOCK_POSITION.LEFT);
+        node1.floatableProperty().set(false);
+        
+        DockNode node2 = AnchorageSystem.createDock("Not resizable", new HTMLEditor());
+        node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
+        node2.resizableProperty().set(false);
+        
+      
+//        DockNode node1 = AnchorageSystem.createDock("Tree", generateRandomTree());
+//        node1.dock(station, DockNode.DOCK_POSITION.CENTER);
+//  
+//        DockNode node2 = AnchorageSystem.createDock("Editor", new HTMLEditor());
+//        node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
+//        
+//        DockNode node3 = AnchorageSystem.createDock("Below the editor", generateRandomTree());
+//        node3.dock(node2, DockNode.DOCK_POSITION.BOTTOM,0.8);
 
         AnchorageSystem.installDefaultStyle();
 
@@ -46,8 +55,8 @@ public class AnchorFX_test extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        DockNode node4 = AnchorageSystem.createDock("Floating", new TableView());
-        node4.dockAsFloating(primaryStage, station, 0, 0, 400, 200);
+//        DockNode node4 = AnchorageSystem.createDock("Floating", new TableView());
+//        node4.dockAsFloating(primaryStage, station, 0, 0, 400, 200);
 
         
         AnchorageSystem.installDefaultStyle();

@@ -11,6 +11,8 @@ import java.util.Objects;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.CacheHint;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -28,7 +30,7 @@ public final class DockUIPanel extends Pane {
 
     public static final double BAR_HEIGHT = 30;
 
-    private Parent nodeContent;
+    private Node nodeContent;
     private Label titleLabel;
 
     private Pane barPanel;
@@ -48,7 +50,7 @@ public final class DockUIPanel extends Pane {
 
     }
 
-    public DockUIPanel(String title, Parent nodeContent, boolean subStationStype, Image imageIcon) {
+    public DockUIPanel(String title, Node nodeContent, boolean subStationStype, Image imageIcon) {
 
         this.subStationStype = subStationStype;
 
@@ -179,6 +181,9 @@ public final class DockUIPanel extends Pane {
         contentPanel.prefHeightProperty().bind(heightProperty().subtract(BAR_HEIGHT));
         contentPanel.getChildren().add(nodeContent);
         
+        contentPanel.setCache(true);
+        contentPanel.setCacheHint(CacheHint.SPEED);
+        
         if (nodeContent instanceof Pane)
         {
             Pane nodeContentPane = (Pane)nodeContent;
@@ -191,12 +196,16 @@ public final class DockUIPanel extends Pane {
         getChildren().addAll(barPanel, contentPanel);
     }
 
+    public StackPane getContentContainer()
+    {
+        return contentPanel;
+    }
     /**
      * Get the value of nodeContent
      *
      * @return the value of nodeContent
      */
-    public Parent getNodeContent() {
+    public Node getNodeContent() {
         return nodeContent;
     }
 

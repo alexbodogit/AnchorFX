@@ -48,11 +48,13 @@ public class AnchorFX_settings extends Application {
         node4.dock(station, DockNode.DOCK_POSITION.BOTTOM);
         node4.closeableProperty().set(false);
 
-        AnchorageSystem.installDefaultStyle();
+        
 
         primaryStage.setTitle("AnchorFX ");
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        AnchorageSystem.installDefaultStyle();
         
     }
 
