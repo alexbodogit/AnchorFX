@@ -50,3 +50,10 @@ Temporary Items
 target
 .idea
 *.iml
+*.ipr
+*.iws
+out/
+
+# gradle
+.gradle/
+build/
