@@ -5,7 +5,6 @@
  */
 package com.anchorage.demo;
 
-import com.anchorage.docks.containers.common.AnchorageSettings;
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.stations.DockStation;
 import com.anchorage.system.AnchorageSystem;

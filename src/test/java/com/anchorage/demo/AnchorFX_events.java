@@ -12,15 +12,9 @@ import com.anchorage.docks.stations.DockStation;
 import com.anchorage.system.AnchorageSystem;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.stage.Stage;
-
-import java.util.Random;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  *

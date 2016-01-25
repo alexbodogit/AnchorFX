@@ -5,7 +5,6 @@
  */
 package com.anchorage.docks.node;
 
-import com.anchorage.docks.containers.SingleDockContainer;
 import com.anchorage.docks.containers.StageFloatable;
 import static com.anchorage.docks.containers.common.AnchorageSettings.FLOATING_NODE_DROPSHADOW_RADIUS;
 import com.anchorage.docks.node.ui.DockUIPanel;

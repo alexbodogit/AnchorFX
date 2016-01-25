@@ -124,9 +124,11 @@ public class StageFloatable extends Stage {
                 }
 
             }
+            /*
             else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
-
+                // TODO: handle this event?
             }
+            */
         };
 
         stackPanelContainer.addEventFilter(MouseEvent.MOUSE_PRESSED, eventsHandler);
