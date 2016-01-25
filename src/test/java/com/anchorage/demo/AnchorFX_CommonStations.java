@@ -48,10 +48,10 @@ public class AnchorFX_CommonStations extends Application {
         Scene scene = new Scene(station, 500,500);
       
         DockNode node1 = AnchorageSystem.createDock("Tree 1", generateRandomTree());
-        node1.dock(station, DockNode.DOCK_POSITION.CENTER);
+        node1.dock(station, DockNode.DockPosition.CENTER);
   
         DockNode node2 = AnchorageSystem.createDock("Tree 2", generateRandomTree());
-        node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
+        node2.dock(station, DockNode.DockPosition.RIGHT);
           
         primaryStage.setTitle("Station 1");
         primaryStage.setScene(scene);
@@ -70,10 +70,10 @@ public class AnchorFX_CommonStations extends Application {
         stage.setScene(scene);
         stage.setTitle("Station 2");
         DockNode node1 = AnchorageSystem.createDock("Tree 3", generateRandomTree());
-        node1.dock(station, DockNode.DOCK_POSITION.CENTER);
+        node1.dock(station, DockNode.DockPosition.CENTER);
   
         DockNode node2 = AnchorageSystem.createDock("Tree 4", generateRandomTree());
-        node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
+        node2.dock(station, DockNode.DockPosition.RIGHT);
         
         stage.setX(600);
         

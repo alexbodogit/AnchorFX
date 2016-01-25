@@ -189,7 +189,7 @@ public final class DockStation extends SingleDockContainer {
             dockZones.getNodeSource().makeNodeActiveOnFloatableStage(getScene().getWindow(), getScene().getX(), getScene().getY());
         }
         else {
-            DockNode.DOCK_POSITION position = selector.getPosition();
+            DockNode.DockPosition position = selector.getPosition();
             if (selector.isStationZone()) {
                 dockZones.getNodeSource().undock();
                 dockZones.getNodeSource().dock(this, position);
@@ -210,7 +210,7 @@ public final class DockStation extends SingleDockContainer {
 
         if (dockZones.getCurrentNodeTarget() == dockZones.getNodeSource()) {
             if (dockZones.getCurrentNodeTarget().getParentContainer() instanceof DockTabberContainer
-                    && dockZones.getCurrentPosition() != DockNode.DOCK_POSITION.CENTER) {
+                    && dockZones.getCurrentPosition() != DockNode.DockPosition.CENTER) {
                 manageDragOnSameNode();
             }
             else {

@@ -40,7 +40,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
     private DockContainer container;
 
     @Override
-    public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage) {
+    public void putDock(DockNode node, DockNode.DockPosition position, double percentage) {
         Tab newTab = new Tab(node.getContent().titleProperty().get());
         newTab.closableProperty().bind(node.closeableProperty());
         getTabs().add(newTab);
@@ -49,7 +49,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
         node.ensureVisibility();
     }
 
-    private void createSplitter(DockNode node, DockNode.DOCK_POSITION position) {
+    private void createSplitter(DockNode node, DockNode.DockPosition position) {
         DockContainer currentContainer = container;
 
         DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position, 0.5);
@@ -74,8 +74,8 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
     }
 
     @Override
-    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
-        if (position != DockNode.DOCK_POSITION.CENTER) {
+    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DockPosition position, double percentage) {
+        if (position != DockNode.DockPosition.CENTER) {
             createSplitter(node, position);
         } else {
 
@@ -146,7 +146,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
         return container;
     }
 
-    public void manageDragOnSameNode(DockNode node, DockNode.DOCK_POSITION position) {
+    public void manageDragOnSameNode(DockNode node, DockNode.DockPosition position) {
 
         if (getTabByNode(node) != null && getTabs().size() == 2) {
             DockNode otherNode = (getTabs().get(0).getContent() == node) ? (DockNode) getTabs().get(1).getContent() : (DockNode) getTabs().get(0).getContent();
