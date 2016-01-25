@@ -36,7 +36,7 @@ import javafx.scene.shape.Circle;
  */
 public final class ZoneSelector extends Pane {
     
-    private final DockNode.DOCK_POSITION position;
+    private final DockNode.DockPosition position;
     
     private ImageView iconView;
     private Circle iconCircle;
@@ -46,7 +46,7 @@ public final class ZoneSelector extends Pane {
     
     private boolean zoneDisabled = false;
 
-    public ZoneSelector(Image image, DockNode.DOCK_POSITION position, boolean stationZone,Pane parent, double x, double y)
+    public ZoneSelector(Image image, DockNode.DockPosition position, boolean stationZone, Pane parent, double x, double y)
     { 
         this.position = position;
         this.stationZone = stationZone;
@@ -113,7 +113,7 @@ public final class ZoneSelector extends Pane {
         return (screenBounds.contains(x, y));
     }
     
-    public DockNode.DOCK_POSITION getPosition()
+    public DockNode.DockPosition getPosition()
     {
         return position;
     }

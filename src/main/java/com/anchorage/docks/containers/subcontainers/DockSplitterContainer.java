@@ -41,12 +41,12 @@ public final class DockSplitterContainer extends SplitPane implements DockContai
      
 
     @Override
-    public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage)  {
+    public void putDock(DockNode node, DockNode.DockPosition position, double percentage)  {
         // NOTHING
     }
 
     @Override
-    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
+    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DockPosition position, double percentage) {
 
         // get index of current node target
         int indexOfTarget = getItems().indexOf(nodeTarget);

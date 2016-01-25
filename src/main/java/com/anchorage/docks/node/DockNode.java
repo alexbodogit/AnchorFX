@@ -59,7 +59,7 @@ import javafx.stage.Window;
  */
 public class DockNode extends StackPane implements DockContainableComponent {
 
-    public enum DOCK_POSITION {
+    public enum DockPosition {
 
         LEFT,
         RIGHT,
@@ -307,7 +307,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         this.station.set((DockStation) station);
     }
 
-    public void dock(DockStation station, DockNode.DOCK_POSITION position) {
+    public void dock(DockStation station, DockPosition position) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -319,7 +319,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         this.station.set((DockStation) station);
     }
 
-    public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position) {
+    public void dock(DockNode nodeTarget, DockPosition position) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -331,7 +331,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         station.set(nodeTarget.station.get());
     }
 
-    public void dock(DockStation station, DockNode.DOCK_POSITION position, double percentage) {
+    public void dock(DockStation station, DockPosition position, double percentage) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -342,7 +342,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         this.station.set((DockStation) station);
     }
 
-    public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
+    public void dock(DockNode nodeTarget, DockPosition position, double percentage) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -354,7 +354,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         station.set(nodeTarget.station.get());
     }
 
-    public void dock(DockSubStation subStation, DockNode.DOCK_POSITION position) {
+    public void dock(DockSubStation subStation, DockPosition position) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -364,7 +364,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         subStation.putDock(this, position, 0.5);
     }
 
-    public void dock(DockSubStation subStation, DockNode.DOCK_POSITION position, double percentage) {
+    public void dock(DockSubStation subStation, DockPosition position, double percentage) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();

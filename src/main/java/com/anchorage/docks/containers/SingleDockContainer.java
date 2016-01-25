@@ -37,7 +37,7 @@ public class SingleDockContainer extends StackPane implements DockContainer {
     private DockContainer container;
 
     @Override
-    public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage) {
+    public void putDock(DockNode node, DockNode.DockPosition position, double percentage) {
 
         if (getChildren().isEmpty()) {
             getChildren().add(node);
@@ -48,7 +48,7 @@ public class SingleDockContainer extends StackPane implements DockContainer {
     }
 
     @Override
-    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
+    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DockPosition position, double percentage) {
 
         if (getChildren().get(0) == nodeTarget) {
             manageSubContainers(node, position, percentage);
@@ -86,7 +86,7 @@ public class SingleDockContainer extends StackPane implements DockContainer {
         }
     }
 
-    private void manageSubContainers(DockNode node, DockNode.DOCK_POSITION position, double percentage) {
+    private void manageSubContainers(DockNode node, DockNode.DockPosition position, double percentage) {
         Node existNode = getChildren().get(0);
         
 
@@ -98,7 +98,7 @@ public class SingleDockContainer extends StackPane implements DockContainer {
         } else if (existNode instanceof DockTabberContainer) {
             
             DockTabberContainer tabber = (DockTabberContainer)existNode;
-            tabber.putDock(node, DockNode.DOCK_POSITION.CENTER, percentage);
+            tabber.putDock(node, DockNode.DockPosition.CENTER, percentage);
         } else {
             getChildren().remove(existNode);
             DockTabberContainer tabber = DockCommons.createTabber(existNode, node, position);

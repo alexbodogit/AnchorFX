@@ -31,8 +31,8 @@ import javafx.scene.Node;
  * @author Alessio
  */
 public interface DockContainer extends DockContainableComponent {
-    public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage);
-    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage); 
+    public void putDock(DockNode node, DockNode.DockPosition position, double percentage);
+    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DockPosition position, double percentage);
     
     public void undock(DockNode node);
     

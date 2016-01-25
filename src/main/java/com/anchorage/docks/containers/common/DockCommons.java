@@ -37,15 +37,15 @@ import javafx.scene.control.Tab;
  */
 public class DockCommons {
 
-    public static boolean isABorderPosition(DockNode.DOCK_POSITION position) {
-        return position != DockNode.DOCK_POSITION.CENTER;
+    public static boolean isABorderPosition(DockNode.DockPosition position) {
+        return position != DockNode.DockPosition.CENTER;
     }
 
-    public static DockSplitterContainer createSplitter(Node existNode, Node newNode, DockNode.DOCK_POSITION position, double percentage) {
+    public static DockSplitterContainer createSplitter(Node existNode, Node newNode, DockNode.DockPosition position, double percentage) {
         DockSplitterContainer splitter = createEmptySplitter();
 
         
-        if (position == DockNode.DOCK_POSITION.BOTTOM || position == DockNode.DOCK_POSITION.TOP) {
+        if (position == DockNode.DockPosition.BOTTOM || position == DockNode.DockPosition.TOP) {
             splitter.setOrientation(Orientation.VERTICAL);
         }
 
@@ -55,7 +55,7 @@ public class DockCommons {
         existContainableComponent.setParentContainer(splitter);
         newContainableComponent.setParentContainer(splitter);
 
-        if (position == DockNode.DOCK_POSITION.BOTTOM || position == DockNode.DOCK_POSITION.RIGHT) {
+        if (position == DockNode.DockPosition.BOTTOM || position == DockNode.DockPosition.RIGHT) {
             splitter.getItems().addAll(existNode, newNode);
         } else {
             splitter.getItems().addAll(newNode, existNode);
@@ -70,7 +70,7 @@ public class DockCommons {
         return new DockSplitterContainer();
     }
 
-    public static DockTabberContainer createTabber(Node existNode, Node newNode, DockNode.DOCK_POSITION position) {
+    public static DockTabberContainer createTabber(Node existNode, Node newNode, DockNode.DockPosition position) {
 
         if (existNode instanceof DockNode && newNode instanceof DockNode) {
             DockNode existDockNode = (DockNode) existNode;

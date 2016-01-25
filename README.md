@@ -32,7 +32,7 @@ Once created the station, we can create the panels and hook them to the station
 ```java
 Pane myPanel...
 DockNode dockNode = AnchorageSystem.createDock("My Title", myPanel);
-dockNode.dock(station, DockNode.DOCK_POSITION.CENTER);
+dockNode.dock(station, DockNode.DockPosition.CENTER);
 ```
 A DockNode is the window built around your panel. This window has a title and an icon and it can be defined as:
 
@@ -67,7 +67,7 @@ class MyPanel extends Pane implements DockNodeCreationListener {
 To be visible, a node must be associated with a station. To do this procedure, we use the function dock (...) of DockNode
 
 ```java
-dockNode.dock(station, DockNode.DOCK_POSITION.CENTER);
+dockNode.dock(station, DockNode.DockPosition.CENTER);
 ```
 
 In this case, the node will be added to the station in a central position. When a station is empty, the location will always be central, otherwise, will be taken the position provided and will be changed the layout
@@ -75,7 +75,7 @@ In this case, the node will be added to the station in a central position. When 
 You may also add a node by specifying the percentage of placement of the divider. This percentage is only effective if the position is provided different from the central
 
 ```java
-dockNode.dock(station, DockNode.DOCK_POSITION.CENTER, 0.8);
+dockNode.dock(station, DockNode.DockPosition.CENTER, 0.8);
 ```
 
 #### Adding a node over another specific node
@@ -84,7 +84,7 @@ AnchorFX provides the possibility to add a node in a generic position respect to
 This feature lets you design a custom layout when your application starts 
 
 ```java
-dockNode.dock(otherNode, DockNode.DOCK_POSITION.CENTER);
+dockNode.dock(otherNode, DockNode.DockPosition.CENTER);
 ```
 
 
@@ -96,9 +96,9 @@ The nodes that are associated with a DockSubStation can only be moved within the
 
 ```java
  DockSubStation subStation = AnchorageSystem.createSubStation(station, "SubStation");
- dockSubNode.dock(subStation, DockNode.DOCK_POSITION.CENTER);
+ dockSubNode.dock(subStation, DockNode.DockPosition.CENTER);
  
- subStation.dock(station, DockNode.DOCK_POSITION.LEFT,0.7);
+ subStation.dock(station, DockNode.DockPosition.LEFT,0.7);
 ```
  
  
