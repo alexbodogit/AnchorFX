@@ -16,11 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
- /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.anchorage.docks.containers.common;
 
 import com.anchorage.docks.containers.interfaces.DockContainableComponent;
@@ -43,7 +39,7 @@ public class DockCommons {
 
     public static DockSplitterContainer createSplitter(Node existNode, Node newNode, DockNode.DockPosition position, double percentage) {
         DockSplitterContainer splitter = createEmptySplitter();
-
+ 
         if (position == DockNode.DockPosition.BOTTOM || position == DockNode.DockPosition.TOP) {
             splitter.setOrientation(Orientation.VERTICAL);
         }

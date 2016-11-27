@@ -1,4 +1,22 @@
 /*
+ * Copyright 2015-2016 Alessio Vinerbi. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -10,7 +28,6 @@ import com.anchorage.docks.stations.DockStation;
 import com.anchorage.system.AnchorageSystem;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.web.HTMLEditor;
@@ -41,13 +58,13 @@ public class AnchorFX_test extends Application {
         
       
 //        DockNode node1 = AnchorageSystem.createDock("Tree", generateRandomTree());
-//        node1.dock(station, DockNode.DOCK_POSITION.CENTER);
+//        node1.dock(station, DockNode.DockPosition.CENTER);
 //  
 //        DockNode node2 = AnchorageSystem.createDock("Editor", new HTMLEditor());
-//        node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
+//        node2.dock(station, DockNode.DockPosition.RIGHT);
 //        
 //        DockNode node3 = AnchorageSystem.createDock("Below the editor", generateRandomTree());
-//        node3.dock(node2, DockNode.DOCK_POSITION.BOTTOM,0.8);
+//        node3.dock(node2, DockNode.DockPosition.BOTTOM,0.8);
 
         AnchorageSystem.installDefaultStyle();
 

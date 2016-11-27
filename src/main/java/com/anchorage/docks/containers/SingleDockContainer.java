@@ -15,12 +15,8 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
- */
- /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+*/
+
 package com.anchorage.docks.containers;
 
 import com.anchorage.docks.containers.common.DockCommons;
@@ -40,7 +36,7 @@ public class SingleDockContainer extends StackPane implements DockContainer {
     
     @Override
     public void putDock(DockNode node, DockNode.DockPosition position, double percentage) {
-        
+ 
         if (getChildren().isEmpty()) {
             getChildren().add(node);
             node.setParentContainer(this);
@@ -52,7 +48,7 @@ public class SingleDockContainer extends StackPane implements DockContainer {
     
     @Override
     public void putDock(DockNode node, DockNode nodeTarget, DockNode.DockPosition position, double percentage) {
-        
+ 
         if (getChildren().get(0) == nodeTarget) {
             manageSubContainers(node, position, percentage);
         }
@@ -88,7 +84,7 @@ public class SingleDockContainer extends StackPane implements DockContainer {
             node.setParentContainer(null);
         }
     }
-    
+ 
     private void manageSubContainers(DockNode node, DockNode.DockPosition position, double percentage) {
         Node existNode = getChildren().get(0);
         
@@ -104,7 +100,6 @@ public class SingleDockContainer extends StackPane implements DockContainer {
             position = DockNode.DockPosition.BOTTOM;
             DockSplitterContainer splitter = (DockSplitterContainer) existNode;
             node.dock((DockStation)this, position);
-            
         } else {
             getChildren().remove(existNode);
             DockTabberContainer tabber = DockCommons.createTabber(existNode, node, position);
