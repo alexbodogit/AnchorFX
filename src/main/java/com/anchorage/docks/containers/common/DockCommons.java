@@ -81,17 +81,20 @@ public class DockCommons {
             Tab newTabPanel = new Tab(newDockNode.getContent().titleProperty().get());
             
             existTabPanel.setOnCloseRequest(event->{
-             
-                   existDockNode.undock();
-                   event.consume();
-            
+
+                if (existDockNode.getCloseRequestHandler() == null || existDockNode.getCloseRequestHandler().canClose()) {
+                    existDockNode.undock();
+                    event.consume();
+                }
+
             });
-            
+
             newTabPanel.setOnCloseRequest(event->{
-             
+                if (newDockNode.getCloseRequestHandler() == null || newDockNode.getCloseRequestHandler().canClose()) {
                    newDockNode.undock();
                    event.consume();
-            
+                }
+
             });
             
             existTabPanel.closableProperty().bind(existDockNode.closeableProperty());
