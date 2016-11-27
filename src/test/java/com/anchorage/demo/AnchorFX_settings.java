@@ -33,19 +33,19 @@ public class AnchorFX_settings extends Application {
         Scene scene = new Scene(station,  1024, 768);
 
         DockNode node1 = AnchorageSystem.createDock("Not floatable", generateRandomTree());
-        node1.dock(station, DockNode.DOCK_POSITION.LEFT);
+        node1.dock(station, DockNode.DockPosition.LEFT);
         node1.floatableProperty().set(false);
         
         DockNode node2 = AnchorageSystem.createDock("Not resizable", generateRandomTree());
-        node2.dock(station, DockNode.DOCK_POSITION.RIGHT);
+        node2.dock(station, DockNode.DockPosition.RIGHT);
         node2.resizableProperty().set(false);
         
         DockNode node3 = AnchorageSystem.createDock("Not maximizable", generateRandomTree());
-        node3.dock(station, DockNode.DOCK_POSITION.TOP);
+        node3.dock(station, DockNode.DockPosition.TOP);
         node3.maximizableProperty().set(false);
         
         DockNode node4 = AnchorageSystem.createDock("Not closeable", generateRandomTree());
-        node4.dock(station, DockNode.DOCK_POSITION.BOTTOM);
+        node4.dock(station, DockNode.DockPosition.BOTTOM);
         node4.closeableProperty().set(false);
 
         

@@ -28,17 +28,17 @@ public class AnchorFX_substations extends Application {
         Scene scene = new Scene(station,  1024, 768);
 
         DockNode node1 = AnchorageSystem.createDock("Node", new TableView());
-        node1.dock(station, DockNode.DOCK_POSITION.CENTER);
+        node1.dock(station, DockNode.DockPosition.CENTER);
 
         DockSubStation station1 = AnchorageSystem.createSubStation(station, "SubStation");
-        station1.dock(station, DockNode.DOCK_POSITION.LEFT,0.7);
+        station1.dock(station, DockNode.DockPosition.LEFT,0.7);
 
         DockNode subNode = AnchorageSystem.createDock("subNode 1", new TableView());
-        subNode.dock(station1, DockNode.DOCK_POSITION.LEFT);
+        subNode.dock(station1, DockNode.DockPosition.LEFT);
         subNode.floatableProperty().set(false);
 
         DockNode subNode2 = AnchorageSystem.createDock("subNode 2", new TableView());
-        subNode2.dock(station1, DockNode.DOCK_POSITION.LEFT);
+        subNode2.dock(station1, DockNode.DockPosition.LEFT);
 
         AnchorageSystem.installDefaultStyle();
 

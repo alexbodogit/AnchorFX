@@ -38,7 +38,7 @@ public class AnchorFX_events extends Application {
         Scene scene = new Scene(station, 1024, 768);
 
         DockNode node1 = AnchorageSystem.createDock("Events", new MyPanel());
-        node1.dock(station, DockNode.DOCK_POSITION.LEFT); 
+        node1.dock(station, DockNode.DockPosition.LEFT); 
         
         AnchorageSystem.installDefaultStyle();
 
