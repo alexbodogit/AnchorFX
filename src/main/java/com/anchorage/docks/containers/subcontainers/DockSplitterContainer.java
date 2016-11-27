@@ -1,4 +1,22 @@
 /*
+ * Copyright 2015-2016 Alessio Vinerbi. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,6 +27,7 @@ import com.anchorage.docks.containers.common.DockCommons;
 import com.anchorage.docks.containers.interfaces.DockContainableComponent;
 import com.anchorage.docks.containers.interfaces.DockContainer;
 import com.anchorage.docks.node.DockNode;
+import com.anchorage.docks.stations.DockStation;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
@@ -20,15 +39,16 @@ import javafx.scene.layout.BorderPane;
 public final class DockSplitterContainer extends SplitPane implements DockContainer {
 
     private DockContainer container;
-     
-
+    
+   
     @Override
-    public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage)  {
+    public void putDock(DockNode node, DockNode.DockPosition position, double percentage)  {
         // NOTHING
     }
-
+  
+    
     @Override
-    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
+    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DockPosition position, double percentage) {
 
         // get index of current node target
         int indexOfTarget = getItems().indexOf(nodeTarget);

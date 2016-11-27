@@ -1,4 +1,22 @@
 /*
+ * Copyright 2015-2016 Alessio Vinerbi. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -13,7 +31,6 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,7 +45,7 @@ import javafx.scene.layout.StackPane;
  */
 public final class DockUIPanel extends Pane {
 
-    public static final double BAR_HEIGHT = 30;
+    public static final double BAR_HEIGHT = 25;
 
     private Node nodeContent;
     private Label titleLabel;
@@ -52,6 +69,8 @@ public final class DockUIPanel extends Pane {
 
     public DockUIPanel(String title, Node nodeContent, boolean subStationStype, Image imageIcon) {
 
+        getStylesheets().add("anchorfx.css");
+        
         this.subStationStype = subStationStype;
 
         Objects.requireNonNull(nodeContent);
@@ -75,7 +94,7 @@ public final class DockUIPanel extends Pane {
         commandsBox = new DockCommandsBox(node);
         barPanel.getChildren().add(commandsBox);
 
-        commandsBox.layoutXProperty().bind(barPanel.prefWidthProperty().subtract(commandsBox.getChildren().size() * 30 + 20));
+        commandsBox.layoutXProperty().bind(barPanel.prefWidthProperty().subtract(commandsBox.getChildren().size() * 30 + 10));
         commandsBox.setLayoutY(0);
 
         titleLabel.prefWidthProperty().bind(commandsBox.layoutXProperty().subtract(10));
@@ -163,16 +182,15 @@ public final class DockUIPanel extends Pane {
         String titleTextStyle = (!subStationStype) ? "docknode-title-text" : "substation-title-text";
         
         iconView = new ImageView(iconImage);
-        iconView.setFitWidth(20);
-        iconView.setFitHeight(20);
+        iconView.setFitWidth(15);
+        iconView.setFitHeight(15);
         iconView.setPreserveRatio(false);
         iconView.setSmooth(true);
         iconView.relocate(1,(BAR_HEIGHT-iconView.getFitHeight()) / 2);
-        
-
+         
         titleLabel.getStyleClass().add(titleTextStyle);
         barPanel.getChildren().addAll(iconView,titleLabel);
-        titleLabel.relocate(25, 7);
+        titleLabel.relocate(25, 5);
 
         contentPanel = new StackPane();
         contentPanel.getStyleClass().add("docknode-content-panel");
@@ -208,5 +226,9 @@ public final class DockUIPanel extends Pane {
     public Node getNodeContent() {
         return nodeContent;
     }
-
+ 
+    public boolean isMenuButtonEnable(){
+        return commandsBox.isMenuButtonEnable();
+    }
+ 
 }

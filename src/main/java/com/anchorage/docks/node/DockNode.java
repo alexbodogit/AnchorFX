@@ -1,11 +1,28 @@
 /*
+ * Copyright 2015-2016 Alessio Vinerbi. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.anchorage.docks.node;
 
-import com.anchorage.docks.containers.SingleDockContainer;
 import com.anchorage.docks.containers.StageFloatable;
 import static com.anchorage.docks.containers.common.AnchorageSettings.FLOATING_NODE_DROPSHADOW_RADIUS;
 import com.anchorage.docks.node.ui.DockUIPanel;
@@ -33,6 +50,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Window;
 
@@ -42,7 +60,7 @@ import javafx.stage.Window;
  */
 public class DockNode extends StackPane implements DockContainableComponent {
 
-    public enum DOCK_POSITION {
+    public enum DockPosition {
 
         LEFT,
         RIGHT,
@@ -284,13 +302,15 @@ public class DockNode extends StackPane implements DockContainableComponent {
         }
 
         station.add(this);
-        makeNodeActiveOnFloatableStage(owner, x, y);
+        stageFloatable = new StageFloatable(this, owner, x, y);
+        stageFloatable.show();
         stageFloatable.setWidth(width);
         stageFloatable.setHeight(height);
+        floatingProperty.set(true);
         this.station.set((DockStation) station);
     }
 
-    public void dock(DockStation station, DockNode.DOCK_POSITION position) {
+    public void dock(DockStation station, DockPosition position) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -302,7 +322,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         this.station.set((DockStation) station);
     }
 
-    public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position) {
+    public void dock(DockNode nodeTarget, DockPosition position) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -314,7 +334,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         station.set(nodeTarget.station.get());
     }
 
-    public void dock(DockStation station, DockNode.DOCK_POSITION position, double percentage) {
+    public void dock(DockStation station, DockPosition position, double percentage) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -325,7 +345,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         this.station.set((DockStation) station);
     }
 
-    public void dock(DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
+    public void dock(DockNode nodeTarget, DockPosition position, double percentage) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -337,7 +357,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         station.set(nodeTarget.station.get());
     }
 
-    public void dock(DockSubStation subStation, DockNode.DOCK_POSITION position) {
+    public void dock(DockSubStation subStation, DockPosition position) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -347,7 +367,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
         subStation.putDock(this, position, 0.5);
     }
 
-    public void dock(DockSubStation subStation, DockNode.DOCK_POSITION position, double percentage) {
+    public void dock(DockSubStation subStation, DockPosition position, double percentage) {
 
         if (stationProperty().get() != null) {
             ensureVisibility();
@@ -363,14 +383,16 @@ public class DockNode extends StackPane implements DockContainableComponent {
             return;
         }
 
+        boolean isFloating = floatingProperty.get();
+
         restore();
 
         if (getParentContainer() != null) {
             getParentContainer().undock(this);
             station.get().remove(this);
-        } else if (floatingProperty.get()) {
-            closeFloatingStage();
+        } else if (isFloating) {
             station.get().remove(this);
+            station.set(null);
         }
     }
 
@@ -426,7 +448,6 @@ public class DockNode extends StackPane implements DockContainableComponent {
             }
 
         }
-
     }
 
     private void moveStateToFullScreen() {
@@ -458,4 +479,10 @@ public class DockNode extends StackPane implements DockContainableComponent {
         }
 
     }
+ 
+    public boolean isMenuButtonEnable() {
+        return content.isMenuButtonEnable();
+    }
+ 
+ 
 }

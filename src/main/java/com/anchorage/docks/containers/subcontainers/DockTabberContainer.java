@@ -1,4 +1,22 @@
 /*
+ * Copyright 2015-2016 Alessio Vinerbi. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,6 +27,7 @@ import com.anchorage.docks.containers.common.DockCommons;
 import com.anchorage.docks.containers.interfaces.DockContainableComponent;
 import com.anchorage.docks.containers.interfaces.DockContainer;
 import com.anchorage.docks.node.DockNode;
+import com.anchorage.docks.stations.DockStation;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -20,9 +39,9 @@ import javafx.scene.control.TabPane;
 public final class DockTabberContainer extends TabPane implements DockContainer {
 
     private DockContainer container;
-
+    
     @Override
-    public void putDock(DockNode node, DockNode.DOCK_POSITION position, double percentage) {
+    public void putDock(DockNode node, DockNode.DockPosition position, double percentage) {
         Tab newTab = new Tab(node.getContent().titleProperty().get());
         newTab.closableProperty().bind(node.closeableProperty());
         getTabs().add(newTab);
@@ -30,8 +49,8 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
         node.setParentContainer(this);
         node.ensureVisibility();
     }
-
-    private void createSplitter(DockNode node, DockNode.DOCK_POSITION position) {
+    
+    private void createSplitter(DockNode node, DockNode.DockPosition position) {
         DockContainer currentContainer = container;
 
         DockSplitterContainer splitter = DockCommons.createSplitter(this, node, position, 0.5);
@@ -56,8 +75,8 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
     }
 
     @Override
-    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DOCK_POSITION position, double percentage) {
-        if (position != DockNode.DOCK_POSITION.CENTER) {
+    public void putDock(DockNode node, DockNode nodeTarget, DockNode.DockPosition position, double percentage) {
+        if (position != DockNode.DockPosition.CENTER) {
             createSplitter(node, position);
         } else {
 
@@ -128,7 +147,7 @@ public final class DockTabberContainer extends TabPane implements DockContainer 
         return container;
     }
 
-    public void manageDragOnSameNode(DockNode node, DockNode.DOCK_POSITION position) {
+    public void manageDragOnSameNode(DockNode node, DockNode.DockPosition position) {
 
         if (getTabByNode(node) != null && getTabs().size() == 2) {
             DockNode otherNode = (getTabs().get(0).getContent() == node) ? (DockNode) getTabs().get(1).getContent() : (DockNode) getTabs().get(0).getContent();
