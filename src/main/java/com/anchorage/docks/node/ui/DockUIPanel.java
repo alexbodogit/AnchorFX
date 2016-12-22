@@ -25,7 +25,6 @@ package com.anchorage.docks.node.ui;
 
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.system.AnchorageSystem;
-import java.util.Objects;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -38,6 +37,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+
+import java.util.Objects;
 
 /**
  *
@@ -69,7 +70,7 @@ public final class DockUIPanel extends Pane {
 
     public DockUIPanel(String title, Node nodeContent, boolean subStationStype, Image imageIcon) {
 
-        getStylesheets().add("anchorfx.css");
+        getStylesheets().add("AnchorFX.css");
         
         this.subStationStype = subStationStype;
 
