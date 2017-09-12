@@ -253,9 +253,11 @@ public final class DockZones extends Stage {
         highLight(selector);
 
         if (selector != null && selector != currentZoneSelector) {
-            currentZoneSelector = selector;
-            makePreview(currentZoneSelector, currentNodeTarget);
-            currentPosition = currentZoneSelector.getPosition();
+            currentZoneSelector = selector; 
+            //NOTE it's the only place to change currentZoneSelector, so the following selector reference passing is safe
+            //maybe a site contains no child, no preview, but cannot be dockable
+            if(currentNodeTarget != null ) makePreview(selector, currentNodeTarget);
+            currentPosition = selector.getPosition();
              
         }
         else {
