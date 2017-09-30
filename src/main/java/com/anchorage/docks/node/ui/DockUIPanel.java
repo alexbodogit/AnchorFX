@@ -26,6 +26,8 @@ package com.anchorage.docks.node.ui;
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.system.AnchorageSystem;
 import java.util.Objects;
+
+import javafx.beans.NamedArg;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -67,9 +69,9 @@ public final class DockUIPanel extends Pane {
 
     }
 
-    public DockUIPanel(String title, Node nodeContent, boolean subStationStype, Image imageIcon) {
+    public DockUIPanel(@NamedArg("title") String title, @NamedArg("nodeContent") Node nodeContent, @NamedArg("subStationType") boolean subStationStype, @NamedArg("imageIcon") Image imageIcon) {
 
-        getStylesheets().add("anchorfx.css");
+        getStylesheets().add(AnchorageSystem.resources + "AnchorFX.css");
         
         this.subStationStype = subStationStype;
 
@@ -81,6 +83,12 @@ public final class DockUIPanel extends Pane {
         buildNode(title,imageIcon);
 
         installDragEventMananger();
+
+    }
+    
+    public DockUIPanel(@NamedArg("title") String title, @NamedArg("nodeContent") Node nodeContent) {
+
+        this(title, nodeContent, false, AnchorageSystem.emptyIconImage);
 
     }
     

@@ -37,6 +37,8 @@ import com.anchorage.docks.stations.DockStation;
 import com.anchorage.docks.stations.DockSubStation;
 import com.anchorage.system.AnchorageSystem;
 import java.util.Objects;
+
+import javafx.beans.NamedArg;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -111,7 +113,7 @@ public class DockNode extends StackPane implements DockContainableComponent {
 
     }
 
-    public DockNode(DockUIPanel node) {
+    public DockNode(@NamedArg("node") DockUIPanel node) {
 
         this();
 

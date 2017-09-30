@@ -50,3 +50,11 @@ Temporary Items
 target
 .idea
 *.iml
+
+.class
+.jar
+/bin
+/lib
+.classpath
+.project
+

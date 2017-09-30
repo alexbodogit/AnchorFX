@@ -22,6 +22,8 @@ package com.anchorage.docks.node.ui;
 import com.anchorage.docks.containers.SingleDockContainer;
 import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.stations.DockSubStation;
+import com.anchorage.system.AnchorageSystem;
+
 import javafx.animation.RotateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
@@ -89,7 +91,7 @@ public class DockCommandsBox extends HBox {
     }
 
     private void createCloseButton() {
-        Image closeImage = new Image("close.png");
+        Image closeImage = new Image(AnchorageSystem.resources + "close.png");
 
         closeButton = new Button() {
             @Override
@@ -121,8 +123,8 @@ public class DockCommandsBox extends HBox {
 
     private void createMaxRestoreButton() {
 
-        Image maximizeImage = new Image("maximize.png");
-        Image restoreImage = new Image("restore.png");
+        Image maximizeImage = new Image(AnchorageSystem.resources + "maximize.png");
+        Image restoreImage = new Image(AnchorageSystem.resources + "restore.png");
 
         maximizeRestoreButton = new Button() {
             @Override

@@ -25,6 +25,8 @@ import com.anchorage.docks.node.DockNode;
 import com.anchorage.docks.node.ui.DockUIPanel;
 import com.anchorage.docks.stations.DockStation;
 import com.anchorage.docks.stations.DockSubStation;
+import com.anchorage.system.AnchorageSystem;
+
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.Interpolator;
@@ -87,11 +89,11 @@ public final class DockZones extends Stage {
     private Timeline opacityAnimationPreview;
 
     static {
-        dragTopImage = new Image("dragtop.png");
-        dragBottomImage = new Image("dragbottom.png");
-        dragLeftImage = new Image("dragleft.png");
-        dragRightImage = new Image("dragright.png");
-        dragCenterImage = new Image("dragcenter.png");
+        dragTopImage = new Image(AnchorageSystem.resources + "dragtop.png");
+        dragBottomImage = new Image(AnchorageSystem.resources + "dragbottom.png");
+        dragLeftImage = new Image(AnchorageSystem.resources + "dragleft.png");
+        dragRightImage = new Image(AnchorageSystem.resources + "dragright.png");
+        dragCenterImage = new Image(AnchorageSystem.resources + "dragcenter.png");
     }
 
     private DockZones() {

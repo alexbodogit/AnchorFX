@@ -43,15 +43,17 @@ public class AnchorageSystem {
 
     private static final List<DockStation> stations;
     private static DockNode nodeInDragging;
-    private static final Image emptyIconImage;
+    public static final Image emptyIconImage;
     private static final Image emptySubstationIconImage;
 
     private static DockStation currentStationFromDrag;
+    
+    public static String resources = "/resources/";
 
     static {
         stations = new ArrayList<>();
-        emptyIconImage = new Image("empty.png");
-        emptySubstationIconImage = new Image("substation.png");
+        emptyIconImage = new Image(resources + "empty.png");
+        emptySubstationIconImage = new Image(resources + "substation.png");
     }
 
     public static DockStation createStation() {
@@ -85,7 +87,7 @@ public class AnchorageSystem {
 
     public static void installDefaultStyle() {
         StyleManager.getInstance()
-                .addUserAgentStylesheet("AnchorFX.css");
+                .addUserAgentStylesheet(resources + "AnchorFX.css");
     }
 
     public static void prepareDraggingZoneFor(DockStation station, DockNode source) {
